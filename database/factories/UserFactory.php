@@ -19,7 +19,7 @@ class UserFactory extends Factory
     {
         return [
             'user_name' => fake()->name(),
-            'phone' => random_int(111111111111, 9999999999),
+            'phone' => rand(1111111, 9999999999),
             'image' => fake()->imageUrl(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

@@ -11,8 +11,12 @@
             <div class="col-md-10 position-relative">
 
                 <div class="card p-3 py-4">
-                    <button class="btn " title="Edit Profile" id="edit-button" data-bs-toggle="modal"
+                    <div class="d-flex gap-3" id="edit-button">
+                    <button class="btn border" title="Edit Profile"  data-bs-toggle="modal"
                         data-bs-target="#updateProfile"> <i class="fas fa-user-edit"></i></button>
+                        <button class="btn border" title="Logout" onclick="logout()" > <i class="fas fa-sign-out-alt"></i></button>
+                    </div>
+                    
                     <div class="text-center">
                         <img src="{{ asset('assets/images/login.png') }}" width="100" height="100"
                             class="rounded-circle image">
