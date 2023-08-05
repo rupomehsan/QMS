@@ -25,3 +25,8 @@ Route::apiResource('subjects', \App\Http\Controllers\Admin\SubjectController::cl
 Route::post('subjects/bulk_actions', [\App\Http\Controllers\Admin\SubjectController::class, "bulkActions"]);
 Route::apiResource('questions', \App\Http\Controllers\Admin\QuestionController::class);
 Route::post('questions/bulk_actions', [\App\Http\Controllers\Admin\QuestionController::class, "bulkActions"]);
+
+
+Route::get('get-all-exams', [\App\Http\Controllers\Student\ExamController::class, "getAllExams"]);
+Route::get('get-all-questions-by-subject/{id}', [\App\Http\Controllers\Student\ExamController::class, "getAllQuestionsBySubject"]);
+Route::post('attempt-exam', [\App\Http\Controllers\Student\ExamController::class, "attemptExam"]);

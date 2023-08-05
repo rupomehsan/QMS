@@ -679,3 +679,133 @@ function resetHandler() {
     $("#id").val("");
     $(".password").removeClass("d-none");
 }
+
+function checkStudentPermission() {
+    if (credentials) {
+        if (credentials.information.is_Admin !== 0) {
+            window.location.href = "/";
+        }
+
+        $(".user_name").text(credentials.information.user_name);
+        $(".email").text(credentials.information.email);
+        $(".phone").text(credentials.information.phone);
+        $(".image").attr("src", credentials.information.image);
+        Object.entries(credentials.information).forEach((element) => {
+            $("#" + element[0]).val(element[1]);
+        });
+    } else {
+        window.location.href = "/";
+    }
+}
+
+function logout() {
+    let text = "Are you want to logedout\nEither Yes or Cancel.";
+    if (confirm(text) == true) {
+        localStorage.removeItem("credentials");
+        window.location.href = "/";
+    }
+}
+
+function getAllExams() {
+    $.ajax({
+        method: "get",
+        url: window.origin + "/api/get-all-exams",
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                response.data.forEach((item) => {
+                    $("#allExam").append(`
+                        <div class="card col-md-4 bg-info text-dark" style="width: 18rem;">
+                            <div class="card-body text-center">
+                                <h5 class="bg-secondary text-white py-2">${item.name}</h5>
+                                <p class="card-text mt-3 fw-bold">Total Marks : ${item.questions.length} </p>
+                                <a href="${window.origin}/student/exam/${item.id}/${item.name}" class="btn btn-warning">Start Test</a>
+                            </div>
+                        </div>
+                    `);
+                });
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        },
+    });
+}
+
+function getAllQuestionBySubject(id) {
+    $.ajax({
+        method: "get",
+        url: window.origin + "/api/get-all-questions-by-subject/" + id,
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                var questionsHtml = "";
+                response.data.forEach(function (question, index) {
+                    questionsHtml += '<div class="question">';
+                    questionsHtml += `<p class="fw-bold mt-3">${index + 1}. ${
+                        question.question
+                    }</p>`;
+                    questionsHtml += '<div>  <div class="row">';
+                    question.options.forEach(function (option, index) {
+                        questionsHtml += `
+                        <div class="col-md-6">
+
+                           <label for="${
+                               question.id + index
+                           }" class="box  w-100 d-flex gap-3">
+                           <input type="radio" class="d-inline-block " name="answer[${
+                               question.id
+                           }]" id="${question.id + index}" value="${index}">
+                                <div class="course">
+                                    <span class="circle"></span>
+                                    <span class="subject">${option}</span>
+                                </div>
+                           </label>
+                        </div>`;
+                    });
+                    questionsHtml += " </div> </div>";
+                });
+                $("#examQuestions").html(questionsHtml);
+
+                // response.data.forEach((item, index) => {
+                //     $("#examQuestions").append(`
+                //         <p class="fw-bold mt-3">${index + 1}. ${
+                //         item.question
+                //     }</p>
+                //         <div>
+                //             <div class="row">
+                //                 <div class="col-md-6">
+                //                         <input type="radio" name="box" id="five">
+                //                         <label for="five" class="box fifth w-100">
+                //                         <div class="course">
+                //                             <span class="circle"></span>
+                //                             <span class="subject">is</span>
+                //                         </div>
+                //                     </label>
+                //                 </div>
+                //                 <div class="col-md-6"> <input type="radio" name="box" id="six"> <label
+                //                         for="six" class="box sixth w-100">
+                //                         <div class="course"> <span class="circle"></span> <span class="subject"> was </span>
+                //                         </div>
+                //                     </label> </div>
+                //                 <div class="col-md-6"> <input type="radio" name="box" id="seven"> <label
+                //                         for="seven" class="box seveth w-100">
+                //                         <div class="course"> <span class="circle"></span> <span class="subject"> will </span>
+                //                         </div>
+                //                     </label> </div>
+                //                 <div class="col-md-6"> <input type="radio" name="box" id="eight"> <label
+                //                         for="eight" class="box eighth w-100">
+                //                         <div class="course"> <span class="circle"></span> <span class="subject"> None of the
+                //                                 above </span> </div>
+                //                     </label> </div>
+                //             </div>
+                //         </div>
+                //     `);
+                // });
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        },
+    });
+}

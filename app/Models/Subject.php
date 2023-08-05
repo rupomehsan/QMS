@@ -9,10 +9,14 @@ class Subject extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'name',
         'status'
     ];
 
 
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 }

@@ -601,3 +601,20 @@ body {
     right: 10px;
     box-shadow: #039be5;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+.exam-container {
+    margin: 0 auto;
+    background: white;
+    padding: 20px 15px;
+    width: 90%;
+}
+label.box {
+    display: flex;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}

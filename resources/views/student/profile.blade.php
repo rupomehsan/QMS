@@ -1,81 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.student')
+@section('content')
+    <div class="page-wrapper">
+        <div class="container mt-5">
 
-@include('partials.head')
+            <div class="row d-flex justify-content-center">
 
-<body>
-    <div class="container mt-5">
+                <div class="col-md-10 position-relative">
 
-        <div class="row d-flex justify-content-center">
+                    <div class="card p-3 py-4">
+                        <div class="d-flex gap-3" id="edit-button">
+                            <button class="btn border" title="Edit Profile" data-bs-toggle="modal"
+                                data-bs-target="#updateProfile"> <i class="fas fa-user-edit"></i></button>
+                            <button class="btn border" title="Logout" onclick="logout()"> <i
+                                    class="fas fa-sign-out-alt"></i></button>
+                        </div>
 
-            <div class="col-md-10 position-relative">
+                        <div class="text-center">
+                            <img src="{{ asset('assets/images/login.png') }}" width="100" height="100"
+                                class="rounded-circle image">
 
-                <div class="card p-3 py-4">
-                    <div class="d-flex gap-3" id="edit-button">
-                    <button class="btn border" title="Edit Profile"  data-bs-toggle="modal"
-                        data-bs-target="#updateProfile"> <i class="fas fa-user-edit"></i></button>
-                        <button class="btn border" title="Logout" onclick="logout()" > <i class="fas fa-sign-out-alt"></i></button>
-                    </div>
-                    
-                    <div class="text-center">
-                        <img src="{{ asset('assets/images/login.png') }}" width="100" height="100"
-                            class="rounded-circle image">
+                        </div>
 
-                    </div>
+                        <div class="text-center mt-3">
+                            <h5 class="mt-2 mb-0 fw-bold user_name">Alexender Schidmt</h5>
+                            <div class="px-4 mt-3">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" width="50%">Email</th>
+                                            <th scope="col" class="email"></th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">Phone</th>
+                                            <th scope="col" class="phone"></th>
+                                        </tr>
+                                    </thead>
+                                </table>
 
-                    <div class="text-center mt-3">
-                        <h5 class="mt-2 mb-0 fw-bold user_name">Alexender Schidmt</h5>
-                        <div class="px-4 mt-3">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" width="50%">Email</th>
-                                        <th scope="col" class="email"></th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Phone</th>
-                                        <th scope="col" class="phone"></th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            </div>
+
+
+                            <div>
+                                <p class="uppercase fw-bold text-center bg-info py-3">Exams</p>
+                            </div>
+
+                            <div class="row gap-3 justify-content-center" id="allExam">
+
+
+
+                            </div>
+
 
                         </div>
 
 
-                        <div>
-                            <p class="uppercase fw-bold text-center bg-info py-3">Exams</p>
-                        </div>
-
-                        <div class="row gap-3 justify-content-center">
-                            <div class="card col-md-4 bg-info text-dark" style="width: 18rem;">
-                                <div class="card-body text-center">
-                                    <h5 class="bg-secondary text-white py-2">HTML</h5>
-                                    <p class="card-text mt-3 fw-bold">Total Marks : 10 </p>
-                                    <a href="#" class="btn btn-warning">Start Test</a>
-                                </div>
-                            </div>
-                            <div class="card col-md-4 bg-info text-dark" style="width: 18rem;">
-                                <div class="card-body text-center">
-                                    <h5 class="bg-secondary text-white py-2">CSS</h5>
-                                    <p class="card-text mt-3 fw-bold">Total Marks : 10 </p>
-                                    <a href="#" class="btn btn-warning">Start Test</a>
-                                </div>
-                            </div>
-                            <div class="card col-md-4 bg-info text-dark" style="width: 18rem;">
-                                <div class="card-body text-center">
-                                    <h5 class="bg-secondary text-white py-2">JAVASCRIPT</h5>
-                                    <p class="card-text mt-3 fw-bold">Total Marks : 10 </p>
-                                    <a href="#" class="btn btn-warning">Start Test</a>
-                                </div>
-                            </div>
-
-                        </div>
 
 
                     </div>
-
-
-
 
                 </div>
 
@@ -83,88 +64,56 @@
 
         </div>
 
-    </div>
-
-    <div class="modal fade" id="updateProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="formSubmit" method="post" name="form" class="p-3 mt-3" autocomplete="off">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Update Profile
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body gap-3">
-                        <div>
-                            <label for="name">User Name</label>
-                            <input type="text" class="form-control my-2" name="user_name" id="user_name"
-                                onkeyup="clearError(this)">
-                            <div class="text-danger" id="user_name_error"></div>
+        <div class="modal fade" id="updateProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="formSubmit" method="post" name="form" class="p-3 mt-3" autocomplete="off">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update Profile
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div>
-                            <label for="name">Email</label>
-                            <input type="email" class="form-control my-2" name="email" id="email"
-                                onkeyup="clearError(this)">
-                            <div class="text-danger" id="email_error"></div>
-                        </div>
-                        <div>
-                            <label for="name">Phone</label>
-                            <input type="text" class="form-control my-2" name="phone" id="phone"
-                                onkeyup="clearError(this)">
-                            <div class="text-danger" id="phone_error"></div>
-                        </div>
+                        <div class="modal-body gap-3">
+                            <div>
+                                <label for="name">User Name</label>
+                                <input type="text" class="form-control my-2" name="user_name" id="user_name"
+                                    onkeyup="clearError(this)">
+                                <div class="text-danger" id="user_name_error"></div>
+                            </div>
+                            <div>
+                                <label for="name">Email</label>
+                                <input type="email" class="form-control my-2" name="email" id="email"
+                                    onkeyup="clearError(this)">
+                                <div class="text-danger" id="email_error"></div>
+                            </div>
+                            <div>
+                                <label for="name">Phone</label>
+                                <input type="text" class="form-control my-2" name="phone" id="phone"
+                                    onkeyup="clearError(this)">
+                                <div class="text-danger" id="phone_error"></div>
+                            </div>
 
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button id="submit-button" type="button" class="btn btn-primary ">Update
-                            <span class="spinner-border mx-3 spinner-border-sm submit-loader d-none" role="status"
-                                aria-hidden="true"></span></button>
-                    </div>
-                </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="submit-button" type="button" class="btn btn-primary ">Update
+                                <span class="spinner-border mx-3 spinner-border-sm submit-loader d-none" role="status"
+                                    aria-hidden="true"></span></button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+@endsection
 
-    @include('partials.footer_link')
-
-
+@push('custom_js')
     <script>
         $(function() {
 
-            if (credentials) {
+            getAllExams()
 
-                if (credentials.information.is_Admin !== 0) {
-                    window.location.href = '/'
-                }
-
-                $('.user_name').text(credentials.information.user_name)
-                $('.email').text(credentials.information.email)
-                $('.phone').text(credentials.information.phone)
-                $('.image').attr("src", credentials.information.image)
-
-                Object.entries(credentials.information).forEach(element => {
-                    $("#" + element[0]).val(element[1])
-                });
-
-
-
-            } else {
-                window.location.href = '/'
-            }
         })
-
-        function logout() {
-            let text = "Are you want to logedout\nEither Yes or Cancel.";
-            if (confirm(text) == true) {
-                localStorage.removeItem("credentials")
-                window.location.href = '/'
-            }
-
-        }
     </script>
-
-</body>
-
-</html>
+@endpush
