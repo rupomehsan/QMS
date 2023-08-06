@@ -13,7 +13,10 @@ class ExamController extends Controller
     public function getAllExams()
     {
         try {
-            $exams = Subject::with('questions')->get();
+            $userId = auth()->user()->id;
+            $exams = Subject::with(['questions', 'exam_results' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])->get();
             return response([
                 'status' => "success",
                 "data" => $exams
@@ -43,11 +46,42 @@ class ExamController extends Controller
         }
     }
 
+    public function examResultBySubject($id)
+    {
+        try {
+            $questions = Question::with(['subject:id,name'])->where('subject_id', $id)->select(['id', 'question', 'subject_id', 'options'])->get();
+            $answer = ExamResult::where("user_id", auth()->id())->where("subject_id", $id)->first();
+            $questions['answer'] = $answer['answers'];
+
+            return response([
+                'status' => "success",
+                "data" => $questions
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                "status" => "server_error",
+                "message" => $e
+            ], 500);
+        }
+    }
+
     public function attemptExam()
     {
+
         $data = request()->all();
         $rightAns = 0;
         $rongAns = 0;
+
+
+
+
+        if (!array_key_exists('answer', $data)) {
+            return response([
+                "status" => "error",
+                "message" => "Please select the  answer"
+            ], 401);
+        }
+
 
         foreach ($data['answer'] as $questionId => $answer) {
             $q = Question::where("id", $questionId)->first();
@@ -62,10 +96,19 @@ class ExamController extends Controller
 
         $result = new ExamResult();
         $result->subject_id = $data['subject_id'];
-        $result->user_id = $data['user_id'];
+        $result->user_id = auth()->id();
         $result->yes_ans = $rightAns;
         $result->no_ans = $rongAns;
         $result->result = $rightAns . "/" . $titlaQ;
-        $result->save();
+        $result->answers = $data['answer'];
+
+
+        if ($result->save()) {
+            return response([
+                'status' => "success",
+                "message" => "Successfully submit",
+                "redirect" => "/student/profile"
+            ], 200);
+        }
     }
 }

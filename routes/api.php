@@ -28,5 +28,6 @@ Route::post('questions/bulk_actions', [\App\Http\Controllers\Admin\QuestionContr
 
 
 Route::get('get-all-exams', [\App\Http\Controllers\Student\ExamController::class, "getAllExams"]);
-Route::get('get-all-questions-by-subject/{id}', [\App\Http\Controllers\Student\ExamController::class, "getAllQuestionsBySubject"]);
-Route::post('attempt-exam', [\App\Http\Controllers\Student\ExamController::class, "attemptExam"]);
+Route::get('get-all-questions-by-subject/{id}', [\App\Http\Controllers\Student\ExamController::class, "getAllQuestionsBySubject"])->middleware(['auth:sanctum']);
+Route::post('attempt-exam', [\App\Http\Controllers\Student\ExamController::class, "attemptExam"])->middleware(['auth:sanctum']);
+Route::get('exam-result-by-subject/{id}', [\App\Http\Controllers\Student\ExamController::class, "examResultBySubject"])->middleware(['auth:sanctum']);

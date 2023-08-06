@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('yes_ans')->nullable();
             $table->string('no_ans')->nullable();
             $table->json('result')->nullable();
+            $table->json('answers')->nullable();
             $table->timestamps();
         });
     }

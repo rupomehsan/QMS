@@ -14,7 +14,7 @@ function formSubmitLanding(url, method, form, button, cb = false) {
         url: url,
         data: formData,
         headers: {
-            // Authorization: getUserInfo ? getUserInfo.userToken : "",
+            Authorization: credentials ? credentials.token : "",
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
         beforeSend: function () {
@@ -51,6 +51,10 @@ function formSubmitLanding(url, method, form, button, cb = false) {
                     }
                     getAllData(url, "data_list", headers, actions);
                     $("#createModal").modal("hide");
+                }
+
+                if (response.redirect) {
+                    window.location.href = window.origin + response.redirect;
                 }
             } else if (response.status == "error") {
                 toastr.warning(response.message);
@@ -714,7 +718,19 @@ function getAllExams() {
         success: function (response) {
             if (response.status === "success") {
                 response.data.forEach((item) => {
-                    $("#allExam").append(`
+                    if (item.exam_results.length > 0) {
+                        $("#allExam").append(`
+                        <div class="card col-md-4 bg-info text-dark" style="width: 18rem;">
+                            <div class="card-body text-center">
+                                <h5 class="bg-secondary text-white py-2">${item.name}</h5>
+                                <p class="card-text mt-3 fw-bold">Total Marks : ${item.questions.length} </p>
+                                <p class="card-text mt-3 fw-bold">Result : ${item.exam_results[0].result} </p>
+                                <a href="${window.origin}/student/result/${item.id}/${item.name}" class="btn btn-success">See Result</a>
+                            </div>
+                        </div>
+                    `);
+                    } else {
+                        $("#allExam").append(`
                         <div class="card col-md-4 bg-info text-dark" style="width: 18rem;">
                             <div class="card-body text-center">
                                 <h5 class="bg-secondary text-white py-2">${item.name}</h5>
@@ -723,6 +739,7 @@ function getAllExams() {
                             </div>
                         </div>
                     `);
+                    }
                 });
             }
         },
@@ -741,11 +758,11 @@ function getAllQuestionBySubject(id) {
             if (response.status === "success") {
                 var questionsHtml = "";
                 response.data.forEach(function (question, index) {
-                    questionsHtml += '<div class="question">';
+                    questionsHtml += "<div>";
                     questionsHtml += `<p class="fw-bold mt-3">${index + 1}. ${
                         question.question
                     }</p>`;
-                    questionsHtml += '<div>  <div class="row">';
+                    questionsHtml += '<div class="row">';
                     question.options.forEach(function (option, index) {
                         questionsHtml += `
                         <div class="col-md-6">
@@ -766,42 +783,48 @@ function getAllQuestionBySubject(id) {
                     questionsHtml += " </div> </div>";
                 });
                 $("#examQuestions").html(questionsHtml);
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        },
+    });
+}
 
-                // response.data.forEach((item, index) => {
-                //     $("#examQuestions").append(`
-                //         <p class="fw-bold mt-3">${index + 1}. ${
-                //         item.question
-                //     }</p>
-                //         <div>
-                //             <div class="row">
-                //                 <div class="col-md-6">
-                //                         <input type="radio" name="box" id="five">
-                //                         <label for="five" class="box fifth w-100">
-                //                         <div class="course">
-                //                             <span class="circle"></span>
-                //                             <span class="subject">is</span>
-                //                         </div>
-                //                     </label>
-                //                 </div>
-                //                 <div class="col-md-6"> <input type="radio" name="box" id="six"> <label
-                //                         for="six" class="box sixth w-100">
-                //                         <div class="course"> <span class="circle"></span> <span class="subject"> was </span>
-                //                         </div>
-                //                     </label> </div>
-                //                 <div class="col-md-6"> <input type="radio" name="box" id="seven"> <label
-                //                         for="seven" class="box seveth w-100">
-                //                         <div class="course"> <span class="circle"></span> <span class="subject"> will </span>
-                //                         </div>
-                //                     </label> </div>
-                //                 <div class="col-md-6"> <input type="radio" name="box" id="eight"> <label
-                //                         for="eight" class="box eighth w-100">
-                //                         <div class="course"> <span class="circle"></span> <span class="subject"> None of the
-                //                                 above </span> </div>
-                //                     </label> </div>
-                //             </div>
-                //         </div>
-                //     `);
-                // });
+function getResultBySubject(id) {
+    $.ajax({
+        method: "get",
+        url: window.origin + "/api/exam-result-by-subject/" + id,
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                var questionsHtml = "";
+                response.data.forEach(function (question, index) {
+                    questionsHtml += "<div>";
+                    questionsHtml += `<p class="fw-bold mt-3">${index + 1}. ${
+                        question.question
+                    }</p>`;
+                    questionsHtml += '<div class="row">';
+                    question.options.forEach(function (option, index) {
+                        questionsHtml += `
+                        <div class="col-md-6">
+
+                           <label for="${
+                               question.id + index
+                           }" class="box  w-100 d-flex gap-3">
+                           <input type="radio" class="d-inline-block " name="answer[${
+                               question.id
+                           }]" id="${question.id + index}" value="${index}">
+                                <div class="course">
+                                    <span class="circle"></span>
+                                    <span class="subject">${option}</span>
+                                </div>
+                           </label>
+                        </div>`;
+                    });
+                    questionsHtml += " </div> </div>";
+                });
+                $("#examQuestions").html(questionsHtml);
             }
         },
         error: function (err) {

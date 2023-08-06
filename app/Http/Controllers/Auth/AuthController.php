@@ -33,12 +33,19 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            $accessToken = $user->createToken("authToken")->accessToken;
+            if (!auth()->attempt($request->validated())) {
+                return response([
+                    'status' => 'error',
+                    'message' => "Creadential doesn't matched...",
+                ], 401);
+            }
+
+            $accessToken = auth()->user()->createToken('authToken');
             return response([
                 "status" => "success",
                 "message" => "You Are Successfully Log In",
                 'data' => [
-                    'token' => 'Bearer ' . $accessToken,
+                    'token' => 'Bearer ' . $accessToken->plainTextToken,
                     'user' => $user,
                 ],
             ]);

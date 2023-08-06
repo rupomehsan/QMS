@@ -19,4 +19,11 @@ class Subject extends Model
     {
         return $this->hasMany(Question::class);
     }
+
+
+    public function exam_results()
+    {
+        // dd(auth()->id());
+        return $this->hasMany(ExamResult::class);
+    }
 }

@@ -34,4 +34,5 @@ Route::prefix('admin')->group(function () {
 Route::prefix('student')->group(function () {
     Route::view('profile', 'student.profile')->name('student.profile');
     Route::view('exam/{id}/{slug}', 'student.exam')->name('student.exam');
+    Route::view('result/{id}/{slug}', 'student.result')->name('student.result');
 });
