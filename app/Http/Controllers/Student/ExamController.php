@@ -34,9 +34,11 @@ class ExamController extends Controller
     {
         try {
             $questions = Question::with(['subject:id,name'])->where('subject_id', $id)->select(['id', 'question', 'subject_id', 'options'])->get();
+
             return response([
                 'status' => "success",
-                "data" => $questions
+                "data" => $questions,
+
             ]);
         } catch (\Exception $e) {
             return response([
@@ -49,9 +51,13 @@ class ExamController extends Controller
     public function examResultBySubject($id)
     {
         try {
-            $questions = Question::with(['subject:id,name'])->where('subject_id', $id)->select(['id', 'question', 'subject_id', 'options'])->get();
-            $answer = ExamResult::where("user_id", auth()->id())->where("subject_id", $id)->first();
-            $questions['answer'] = $answer['answers'];
+            $questions = Question::with(['subject:id,name'])->where('subject_id', $id)->select(['id', 'question', 'subject_id', 'options', 'answer'])->get();
+            $result = ExamResult::where("user_id", auth()->id())->where("subject_id", $id)->select('answers')->first();
+            return response([
+                'status' => "success",
+                "data" => $questions,
+                "result" => $result['answers'],
+            ]);
 
             return response([
                 'status' => "success",

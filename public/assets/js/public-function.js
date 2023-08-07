@@ -689,14 +689,6 @@ function checkStudentPermission() {
         if (credentials.information.is_Admin !== 0) {
             window.location.href = "/";
         }
-
-        $(".user_name").text(credentials.information.user_name);
-        $(".email").text(credentials.information.email);
-        $(".phone").text(credentials.information.phone);
-        $(".image").attr("src", credentials.information.image);
-        Object.entries(credentials.information).forEach((element) => {
-            $("#" + element[0]).val(element[1]);
-        });
     } else {
         window.location.href = "/";
     }
@@ -757,14 +749,16 @@ function getAllQuestionBySubject(id) {
         success: function (response) {
             if (response.status === "success") {
                 var questionsHtml = "";
-                response.data.forEach(function (question, index) {
-                    questionsHtml += "<div>";
-                    questionsHtml += `<p class="fw-bold mt-3">${index + 1}. ${
-                        question.question
-                    }</p>`;
-                    questionsHtml += '<div class="row">';
-                    question.options.forEach(function (option, index) {
-                        questionsHtml += `
+                if (response.data.length > 0) {
+                    $("#examName").text(response.data[0].subject.name);
+                    response.data.forEach(function (question, index) {
+                        questionsHtml += "<div>";
+                        questionsHtml += `<p class="fw-bold mt-3">${
+                            index + 1
+                        }. ${question.question}</p>`;
+                        questionsHtml += '<div class="row">';
+                        question.options.forEach(function (option, index) {
+                            questionsHtml += `
                         <div class="col-md-6">
 
                            <label for="${
@@ -779,9 +773,10 @@ function getAllQuestionBySubject(id) {
                                 </div>
                            </label>
                         </div>`;
+                        });
+                        questionsHtml += " </div> </div>";
                     });
-                    questionsHtml += " </div> </div>";
-                });
+                }
                 $("#examQuestions").html(questionsHtml);
             }
         },
@@ -799,20 +794,29 @@ function getResultBySubject(id) {
         success: function (response) {
             if (response.status === "success") {
                 var questionsHtml = "";
-                response.data.forEach(function (question, index) {
-                    questionsHtml += "<div>";
-                    questionsHtml += `<p class="fw-bold mt-3">${index + 1}. ${
-                        question.question
-                    }</p>`;
-                    questionsHtml += '<div class="row">';
-                    question.options.forEach(function (option, index) {
-                        questionsHtml += `
+                if (response.data.length > 0) {
+                    $("#examName").text(response.data[0].subject.name);
+                    response.data.forEach(function (question, index) {
+                        questionsHtml += "<div>";
+                        questionsHtml += `<p class="fw-bold mt-3">${
+                            index + 1
+                        }. ${question.question}</p>`;
+                        questionsHtml += '<div class="row">';
+                        question.options.forEach(function (option, index) {
+                            questionsHtml += `
                         <div class="col-md-6">
 
                            <label for="${
                                question.id + index
-                           }" class="box  w-100 d-flex gap-3">
-                           <input type="radio" class="d-inline-block " name="answer[${
+                           }" class="box  w-100 d-flex gap-3
+                           ${justifyResult(
+                               question.id,
+                               question.answer,
+                               response.result,
+                               index
+                           )}
+                        ">
+                           <input disabled type="radio" class="d-inline-block " name="answer[${
                                question.id
                            }]" id="${question.id + index}" value="${index}">
                                 <div class="course">
@@ -821,10 +825,58 @@ function getResultBySubject(id) {
                                 </div>
                            </label>
                         </div>`;
+                        });
+
+                        questionsHtml += " </div> </div>";
                     });
-                    questionsHtml += " </div> </div>";
+                }
+                $("#examResults").html(questionsHtml);
+
+                function justifyResult(
+                    quesionId,
+                    answerIndex,
+                    result,
+                    optionIndex
+                ) {
+                    console.log(quesionId, answerIndex, result, optionIndex);
+                    var justify = "";
+                    var rightAns = false;
+
+                    if (answerIndex == optionIndex) {
+                        justify = "bg-success";
+                        rightAns = true;
+                    }
+
+                    if (result[quesionId] == optionIndex) {
+                        if (!rightAns) {
+                            justify += " bg-warning";
+                        }
+                    }
+
+                    return justify;
+                }
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        },
+    });
+}
+
+function fetchMe() {
+    $.ajax({
+        method: "get",
+        url: window.origin + "/api/fetch-me",
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                $(".user_name").text(response.data.user_name);
+                $(".email").text(response.data.email);
+                $(".phone").text(response.data.phone);
+                $(".image").attr("src", response.data.image);
+                Object.entries(response.data).forEach((element) => {
+                    $("#" + element[0]).val(element[1]);
                 });
-                $("#examQuestions").html(questionsHtml);
             }
         },
         error: function (err) {

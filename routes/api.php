@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, "login"]);
 Route::post('register', [\App\Http\Controllers\Auth\AuthController::class, 'register']);
+Route::post('update-profile', [\App\Http\Controllers\Auth\AuthController::class, 'updateProfile'])->middleware(['auth:sanctum']);
+Route::get('fetch-me', [\App\Http\Controllers\Auth\AuthController::class, 'fetchMe'])->middleware(['auth:sanctum']);
 
 Route::get('statistics', [\App\Http\Controllers\Admin\DashboardController::class, 'statistics']);
 

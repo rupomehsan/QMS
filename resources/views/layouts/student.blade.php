@@ -12,6 +12,7 @@
     <script>
         $(function() {
             checkStudentPermission()
+            fetchMe()
         })
     </script>
     @stack('custom_js')

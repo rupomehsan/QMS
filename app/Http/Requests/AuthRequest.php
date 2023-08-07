@@ -25,7 +25,7 @@ class AuthRequest extends FormRequest
     {
         return [
             'user_name' => 'sometimes|required',
-            'email'       => 'sometimes|required|unique:users',
+            'email' => 'sometimes|required|unique:users,email,' . auth()->id(),
             'phone'       => 'sometimes|required',
             'password'       => 'sometimes|required',
             'confirm_password'       => 'sometimes|required_with:password|same:password',

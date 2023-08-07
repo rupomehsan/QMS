@@ -5,6 +5,8 @@
             <form id="formSubmit" method="post" name="form" class="p-3 mt-3" autocomplete="off">
                 <input type="hidden" name="subject_id" value="{{ request()->route('id') }}">
                 <div class="row">
+                    <h1 class="text-center text-info" id="examName"></h1>
+                    <hr>
                     <div class="col-12" id="examQuestions">
 
                     </div>

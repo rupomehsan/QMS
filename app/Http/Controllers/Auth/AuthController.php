@@ -73,4 +73,32 @@ class AuthController extends Controller
             ]);
         }
     }
+
+
+    public function updateProfile(AuthRequest $request)
+    {
+
+        if (!$query = User::query()->where(["id" => auth()->id()])->first()) {
+            return response([
+                "status" => "error",
+                "message" => "No configure found..."
+            ], 404);
+        }
+        $query->update($request->validated());
+        return response([
+            "status" => "success",
+            "message" => "Profile  successfully update"
+        ], 200);
+    }
+
+    public function fetchMe(AuthRequest $request)
+    {
+
+        if ($query = User::where(["id" => auth()->id()])->first()) {
+            return response([
+                "status" => "success",
+                "data" => $query
+            ], 200);
+        }
+    }
 }
