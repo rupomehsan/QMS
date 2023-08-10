@@ -1,67 +1,237 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Welcome to Quiz Management Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Table of contents
 
-## About Laravel
+-   [Introduction](#introduction)
+-   [Features](#features)
+-   [Model](#model)
+-   [Technologies](#technologies)
+-   [Demo Screenshots](#demo-screenshots)
+-   [Setup](#setup)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Introduction
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Welcome to the Quiz Management Application! Our application is designed to streamline the process of creating, managing, and conducting quizzes and assessments. Whether you're an educator, trainer, or anyone who needs to assess knowledge, our application provides an efficient and user-friendly platform to help you achieve your goals.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Features
 
-## Learning Laravel
+This website has two Roles:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   Applicants
+-   Admin
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Model
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Application flowchart :
 
-## Laravel Sponsors
+<div>
+	<h3> Process flowchart </h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/flowc.png?raw=true">
+</div>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Entity relationship diagram :
 
-### Premium Partners
+<div>
+	<h3> Database design </h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/er-d.png?raw=true">
+</div>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### Applicants:
 
-## Contributing
+-   May change the details of their profile
+-   Can see the list of all quiz .
+-   Applicants can attempt the quiz and view the result after submitting the quiz
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Admin:
 
-## Code of Conduct
+-   can manage all applicants.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    -   see the results of the applicant quiz
 
-## Security Vulnerabilities
+-   quiz management
+    -   manage quiz subject
+        -   create
+        -   edit
+        -   update
+        -   delete
+    -   manage quiz questions
+        -   create
+        -   edit
+        -   update
+        -   delete
+    -   manage quiz
+        -   attach quiz question to each topics
+        -   edit
+        -   delete
+        -
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Technologies
 
-## License
+-   PHP Laravel
+-   mySQL
+-   HTML
+-   Java Script
+-   Bootstrap
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# QMS
+## Demo Screenshots
+
+<div>
+	<h3> Login </h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/login.png?raw=true">
+</div>
+
+<div>
+	<h3> Registration </h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/register.png?raw=true">
+</div>
+
+<h1> Admin Panel </h1>
+
+<div>
+	<h3> Admin dashboard</h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/dashboard.jpg?raw=true">
+</div>
+
+<div>
+	<h3>Subjects manage</h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/subject.png?raw=true">
+</div>
+
+<div>
+	<h3>Questions manage</h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/question.png?raw=true">
+</div>
+
+<div>
+	<h3>Applicant </h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/quiz.png?raw=true">
+</div>
+
+<div>
+	<h3>Applicant result</h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/quiz-result.png?raw=true">
+</div>
+
+<div>
+	<h3>Result Details</h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/result.png?raw=true">
+</div>
+
+<h1> User Panel </h1>
+
+<div>
+	<h3>Profile and quiz topics</h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/profile.png?raw=true">
+</div>
+
+<div>
+	<h3>Attempt quiz</h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/attempt-quiz.png?raw=true">
+</div>
+
+<div>
+	<h3>Quiz result </h3>
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/applicant-result.png?raw=true">
+</div>
+
+## Setup
+
+#### Installation
+
+**requirements**
+
+1.  PHP: 7.3 | ^8.0
+2.  Laravel : ^10.75
+
+First clone this repository, install the dependencies, and setup your .env file.
+
+**run the commands**
+
+clone project
+
+```
+git clone https://github.com/rupomehsan/QMS.git
+```
+
+or [Click here to download .zip](https://github.com/rupomehsan/QMS/archive/refs/heads/main.zip)
+
+install dependencies
+
+```
+composer install
+or
+composer update
+
+```
+
+swith directory to project
+
+```
+cd QMS
+```
+
+generate app key
+
+```
+php artisan key:generate
+```
+
+open .env file and change db name.
+**database setup**
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_db_name
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+migrate database, and seed
+
+```
+php artisan migrate:fresh --seed
+```
+
+```
+Finally time to launch project, run
+```
+
+```
+php artisan serve
+```
+
+the project will open at http://127.0.0.1:8000
+
+or
+
+```
+php artisan serve --port=8001 | any supported port number
+```
+
+**database seed will generate**
+
+-   login information for one administrator and ten users.
+-   30 question tests on HTML, CSS, and Github
+
+#### login credentials
+
+**admin:**
+email: admin@gmail.com
+pass: 12345678
+
+##### Candidates login:
+
+| Email             | password   |
+| ----------------- | ---------- |
+| user_1@gmail.com  | `12345678` |
+| user_2@gmail.com  | `12345678` |
+| user_3@gmail.com  | `12345678` |
+| user_4@gmail.com  | `12345678` |
+| user_5@gmail.com  | `12345678` |
+| user_6@gmail.com  | `12345678` |
+| user_7@gmail.com  | `12345678` |
+| user_8@gmail.com  | `12345678` |
+| user_9@gmail.com  | `12345678` |
+| user_10@gmail.com | `12345678` |

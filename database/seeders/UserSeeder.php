@@ -25,10 +25,10 @@ class UserSeeder extends Seeder
 
         for ($i = 1; $i < 10; $i++) {
             User::create([
-                'user_name' => 'student_' . $i,
+                'user_name' => 'user_' . $i,
                 'phone' => '016123456789',
                 'is_admin' => 0,
-                'email' => 'student_' . $i . '@gmail.com',
+                'email' => 'user_' . $i . '@gmail.com',
                 'password' => bcrypt('123456'),
                 'dummy_user' => 1
             ]);
