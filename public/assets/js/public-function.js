@@ -27,7 +27,9 @@ function formSubmitLanding(url, method, form, button, cb = false) {
                 $(button.submitButton).prop("disabled", false);
                 $(button.loaderButton).addClass("d-none");
                 form[0].reset();
-
+                if (window.location.pathname == "/register") {
+                    window.location.href = "/login";
+                }
                 if (response.data) {
                     localStorage.setItem(
                         "credentials",
@@ -47,8 +49,8 @@ function formSubmitLanding(url, method, form, button, cb = false) {
                 if (cb) {
                     if (formData.id) {
                         url = url.replace(formData.id, "");
-                        // alert(url);
                     }
+
                     getAllData(url, "data_list", headers, actions);
                     $("#createModal").modal("hide");
                 }
@@ -96,7 +98,7 @@ function formSubmitLanding(url, method, form, button, cb = false) {
 
 function getAllStudents() {
     $.ajax({
-        url: "api/users?get_all=true",
+        url: "api/users?get_all",
         method: "get",
         dataType: "json",
         success: function (res) {
@@ -110,7 +112,7 @@ function getAllStudents() {
                                 : ""
                         }">
                             <th>${item.email}</th>
-                            <td>123456</td>
+                            <td>******</td>
                             <td><button class="btn btn-secondary btn-sm"
                                     onclick="setCredential('${
                                         item.email
@@ -189,7 +191,7 @@ function getEditContent(url) {
             if (res.status === "success") {
                 editDataCategoryId = res.data.category_id || "";
                 answer = res.data.answer || "";
-
+                $(".hide-password").remove();
                 Object.entries(res.data).forEach(function (item) {
                     $("#" + item[0]).val(item[1]);
 
@@ -227,133 +229,171 @@ function getEditContent(url) {
 function generateTable(id, headers, data, actions = []) {
     let container = document.getElementById(id);
     container.innerHTML = "";
-    // console.log("my data",headers)
-    data.data.forEach(function (item, index) {
-        let tableRow = document.createElement("tr");
+    console.log("my data", data.data?.length);
+    if (data.data?.length > 0) {
+        data.data.forEach(function (item, index) {
+            let tableRow = document.createElement("tr");
 
-        headers.forEach((header) => {
-            Object.keys(item).forEach((key) => {
-                if (key === header.field) {
+            headers.forEach((header) => {
+                Object.keys(item).forEach((key) => {
+                    if (key === header.field) {
+                        let tableData = document.createElement("td");
+
+                        if (typeof item[key] == "object") {
+                            console.log("key", item[key].name);
+                            tableData.innerHTML = item[key].name;
+                        } else {
+                            tableData.innerHTML = item[key];
+                        }
+
+                        if (key === "image") {
+                            if (item[key] !== null) {
+                                // console.log("yes")
+                                let image = item[key];
+                                // console.log("iamgeeeeee", image)
+                                let imageDiv = `<div class="sidebar-logo"><img src="${image}" class="" alt="logo.png" height="40" width="70"></div>`;
+                                let imageTag = document.createElement("div");
+                                imageTag.innerHTML = imageDiv;
+                                tableData.innerHTML = "";
+                                tableData.appendChild(imageTag);
+                            } else {
+                                console.log("no");
+                                let imageDiv = `<div class="sidebar-logo"><img src="" class="logo-lg" alt="logo.png"></div>`;
+                                let imageTag = document.createElement("div");
+                                imageTag.innerHTML = imageDiv;
+                                tableData.appendChild(imageTag);
+                            }
+                        }
+                        if (key === "status") {
+                            let div = `<div class="switch"> <label class=""> <input class="form-check-input" ${
+                                item[key] === "active" ? "checked" : ""
+                            }  id="approval" data-id="${
+                                item.id
+                            }" type="checkbox"  > <div class="slider round"></div></label></div>`;
+                            let status = document.createElement("div");
+                            status.innerHTML = div;
+                            tableData.innerHTML = "";
+                            tableData.appendChild(status);
+                        }
+                        if (key === "id") {
+                            let sl = index + 1;
+                            let cehkbox = `<input type="checkbox" class="checkbox-item" name="" value="${item.id}"/> ${sl}`;
+                            tableData.innerHTML = cehkbox;
+                        }
+                        tableRow.appendChild(tableData);
+                    }
+                });
+
+                if (header.field === "action" && actions.length) {
                     let tableData = document.createElement("td");
 
-                    if (typeof item[key] == "object") {
-                        console.log("key", item[key].name);
-                        tableData.innerHTML = item[key].name;
-                    } else {
-                        tableData.innerHTML = item[key];
-                    }
+                    actions.forEach((actionItem) => {
+                        let actionBtn = document.createElement("button");
+                        actionBtn.textContent = actionItem.label;
 
-                    if (key === "image") {
-                        if (item[key] !== null) {
-                            // console.log("yes")
-                            let image = item[key];
-                            // console.log("iamgeeeeee", image)
-                            let imageDiv = `<div class="sidebar-logo"><img src="${image}" class="" alt="logo.png" height="40" width="70"></div>`;
-                            let imageTag = document.createElement("div");
-                            imageTag.innerHTML = imageDiv;
-                            tableData.innerHTML = "";
-                            tableData.appendChild(imageTag);
-                        } else {
-                            console.log("no");
-                            let imageDiv = `<div class="sidebar-logo"><img src="" class="logo-lg" alt="logo.png"></div>`;
-                            let imageTag = document.createElement("div");
-                            imageTag.innerHTML = imageDiv;
-                            tableData.appendChild(imageTag);
+                        if (actionItem.label.toLowerCase() === "edit") {
+                            actionBtn.setAttribute(
+                                "class",
+                                "btn btn-success mx-1"
+                            );
+
+                            actionBtn.addEventListener("click", function () {
+                                if (
+                                    actionItem.modal &&
+                                    actionItem.modal == true
+                                ) {
+                                    let url = actionItem.url.replace(
+                                        ":id",
+                                        item.id
+                                    );
+                                    getEditContent(url);
+                                    $("#id").val(item.id);
+                                    $("#createModal").modal("show");
+                                    $("#actionTitle").text("Edit");
+                                    $(".submit-button").text("Update");
+                                    $(".password").addClass("d-none");
+                                    $(".text-danger").text("");
+                                    $(".form-control").removeClass(
+                                        "is-invalid"
+                                    );
+                                } else {
+                                    window.location.href =
+                                        actionItem.url.replace(":id", item.id);
+                                }
+
+                                // console.log(item.id)
+                                // actionItem.url.replace(':id', item.id)
+                                // getEditData(actionItem.url.replace(':id', item.id))
+                            });
+                        } else if (
+                            actionItem.label.toLowerCase() === "delete"
+                        ) {
+                            actionBtn.setAttribute(
+                                "class",
+                                "btn btn-danger me-1"
+                            );
+
+                            actionBtn.addEventListener("click", function () {
+                                let params = "";
+                                if (actionItem.param) {
+                                    params = actionItem.param;
+                                    deleteItem(
+                                        actionItem.url.replace(":id", item.id),
+                                        actionItem.url.replace(
+                                            "/:id",
+                                            "" + params
+                                        )
+                                    );
+                                } else {
+                                    deleteItem(
+                                        actionItem.url.replace(":id", item.id),
+                                        actionItem.url.replace("/:id", "")
+                                    );
+                                }
+
+                                // console.log(item.id)
+                            });
+                        } else if (actionItem.label.toLowerCase() === "view") {
+                            actionBtn.setAttribute(
+                                "class",
+                                "btn btn-primary me-1"
+                            );
+                        } else if (
+                            actionItem.label.toLowerCase() === "result"
+                        ) {
+                            actionBtn.setAttribute(
+                                "class",
+                                "btn btn-primary me-1"
+                            );
+                            actionBtn.addEventListener("click", function () {
+                                if (
+                                    actionItem.modal &&
+                                    actionItem.modal == true
+                                ) {
+                                    getAllExamsByStudentID(item.id);
+                                    $("#resultModal").modal("show");
+                                }
+                            });
                         }
-                    }
-                    if (key === "status") {
-                        let div = `<div class="switch"> <label class=""> <input class="form-check-input" ${
-                            item[key] === "active" ? "checked" : ""
-                        }  id="approval" data-id="${
-                            item.id
-                        }" type="checkbox"  > <div class="slider round"></div></label></div>`;
-                        let status = document.createElement("div");
-                        status.innerHTML = div;
-                        tableData.innerHTML = "";
-                        tableData.appendChild(status);
-                    }
-                    if (key === "id") {
-                        let sl = index + 1;
-                        let cehkbox = `<input type="checkbox" class="checkbox-item" name="" value="${item.id}"/> ${sl}`;
-                        tableData.innerHTML = cehkbox;
-                    }
+
+                        tableData.appendChild(actionBtn);
+                    });
+
                     tableRow.appendChild(tableData);
                 }
             });
 
-            if (header.field === "action" && actions.length) {
-                let tableData = document.createElement("td");
-
-                actions.forEach((actionItem) => {
-                    let actionBtn = document.createElement("button");
-                    actionBtn.textContent = actionItem.label;
-
-                    if (actionItem.label.toLowerCase() === "edit") {
-                        actionBtn.setAttribute("class", "btn btn-success mx-1");
-
-                        actionBtn.addEventListener("click", function () {
-                            if (actionItem.modal && actionItem.modal == true) {
-                                let url = actionItem.url.replace(
-                                    ":id",
-                                    item.id
-                                );
-                                getEditContent(url);
-                                $("#id").val(item.id);
-                                $("#createModal").modal("show");
-                                $("#actionTitle").text("Edit");
-                                $("#submit-button").text("Update");
-                                $(".password").addClass("d-none");
-                            } else {
-                                window.location.href = actionItem.url.replace(
-                                    ":id",
-                                    item.id
-                                );
-                            }
-
-                            // console.log(item.id)
-                            // actionItem.url.replace(':id', item.id)
-                            // getEditData(actionItem.url.replace(':id', item.id))
-                        });
-                    } else if (actionItem.label.toLowerCase() === "delete") {
-                        actionBtn.setAttribute("class", "btn btn-danger me-1");
-
-                        actionBtn.addEventListener("click", function () {
-                            let params = "";
-                            if (actionItem.param) {
-                                params = actionItem.param;
-                                deleteItem(
-                                    actionItem.url.replace(":id", item.id),
-                                    actionItem.url.replace("/:id", "" + params)
-                                );
-                            } else {
-                                deleteItem(
-                                    actionItem.url.replace(":id", item.id),
-                                    actionItem.url.replace("/:id", "")
-                                );
-                            }
-
-                            // console.log(item.id)
-                        });
-                    } else if (actionItem.label.toLowerCase() === "view") {
-                        actionBtn.setAttribute("class", "btn btn-primary me-1");
-                    } else if (actionItem.label.toLowerCase() === "result") {
-                        actionBtn.setAttribute("class", "btn btn-primary me-1");
-                        actionBtn.addEventListener("click", function () {
-                            if (actionItem.modal && actionItem.modal == true) {
-                                $("#resultModal").modal("show");
-                            }
-                        });
-                    }
-
-                    tableData.appendChild(actionBtn);
-                });
-
-                tableRow.appendChild(tableData);
-            }
+            container.appendChild(tableRow);
         });
-
+    } else {
+        let tableRow = document.createElement("tr");
+        let tableData = document.createElement("td");
+        tableData.setAttribute("colspan", "6");
+        tableData.classList.add("text-center", "text-danger", "fw-bold");
+        tableData.innerHTML = "Data Not Found";
+        tableRow.appendChild(tableData);
         container.appendChild(tableRow);
-    });
+    }
 }
 
 /**
@@ -364,6 +404,10 @@ function getAllData(url, id, headers, actions = [], searchData = null) {
         type: "GET",
         url: url,
         dataType: "json",
+        beforeSend: function () {
+            // $("#data_list").addClass("d-none");
+            // $(".product_placeholder").removeClass("d-none");
+        },
         success: function (response) {
             if (response.status === "success") {
                 let data = response.data;
@@ -401,9 +445,11 @@ function getAllData(url, id, headers, actions = [], searchData = null) {
  * skelytone loader
  */
 function endLoading() {
-    $("#loader").fadeOut();
-    $("#loader").remove();
+    $(".product_placeholder").fadeOut();
+    $(".product_placeholder").addClass("d-none");
+    $("#data_list").removeClass("d-none");
 }
+
 /**
  * GET date search Data
  */
@@ -650,8 +696,10 @@ function deleteItem(url, cbUrl) {
                 type: "DELETE",
                 dataType: "json",
                 headers: {
-                    Authorization:
-                        JSON.parse(localStorage.getItem("adminToken")) || null,
+                    Authorization: credentials ? credentials.token : "",
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
                 },
                 success: function (res) {
                     console.log(res);
@@ -678,10 +726,22 @@ function deleteItem(url, cbUrl) {
 
 function resetHandler() {
     $("#actionTitle").text("Add");
-    $("#submit-button").text("Save");
+    $(".submit-button").text("Save");
     $("#formSubmit")[0].reset();
     $("#id").val("");
     $(".password").removeClass("d-none");
+    $("#options").empty();
+    $(".text-danger").text("");
+    $(".form-control").removeClass("is-invalid");
+    $(".password-section").empty();
+    $(".password-section").append(`
+        <div class="hide-password">
+            <label for="name">Password</label>
+            <input type="password" class="form-control my-2" name="password" id="password"
+                onkeyup="clearError(this)">
+            <div class="text-danger" id="password_error"></div>
+        </div>
+    `);
 }
 
 function checkStudentPermission() {
@@ -741,6 +801,46 @@ function getAllExams() {
     });
 }
 
+function getAllExamsByStudentID(id) {
+    $.ajax({
+        method: "get",
+        url: window.origin + "/api/get-all-exams-by-student-id/" + id,
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                $("#allExam").empty();
+                response.data.forEach((item) => {
+                    if (item.exam_results.length > 0) {
+                        $("#allExam").append(`
+                        <div class="card col-md-4 bg-info text-dark" style="width: 18rem;">
+                            <div class="card-body text-center">
+                                <h5 class="bg-secondary text-white py-2">${item.name}</h5>
+                                <p class="card-text mt-3 fw-bold">Total Marks : ${item.questions.length} </p>
+                                <p class="card-text mt-3 fw-bold">Result : ${item.exam_results[0].result} </p>
+                                <a href="${window.origin}/admin/student-result/${item.id}/${id}/${item.name}" class="btn btn-success">See Result</a>
+                            </div>
+                        </div>
+                    `);
+                    } else {
+                        $("#allExam").append(`
+                        <div class="card col-md-4 bg-info text-dark" style="width: 18rem;">
+                            <div class="card-body text-center">
+                                <h5 class="bg-secondary text-white py-2">${item.name}</h5>
+                                <p class="card-text mt-3 fw-bold">Total Marks : ${item.questions.length} </p>
+                                <button type="button" class="btn btn-warning">Do not attempt</button>
+                            </div>
+                        </div>
+                    `);
+                    }
+                });
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        },
+    });
+}
+
 function getAllQuestionBySubject(id) {
     $.ajax({
         method: "get",
@@ -748,6 +848,7 @@ function getAllQuestionBySubject(id) {
         dataType: "json",
         success: function (response) {
             if (response.status === "success") {
+                console.log("data", response.data);
                 var questionsHtml = "";
                 if (response.data.length > 0) {
                     $("#examName").text(response.data[0].subject.name);
@@ -761,12 +862,8 @@ function getAllQuestionBySubject(id) {
                             questionsHtml += `
                         <div class="col-md-6">
 
-                           <label for="${
-                               question.id + index
-                           }" class="box  w-100 d-flex gap-3">
-                           <input type="radio" class="d-inline-block " name="answer[${
-                               question.id
-                           }]" id="${question.id + index}" value="${index}">
+                           <label for="${option}" class="box  w-100 d-flex gap-3">
+                           <input type="radio" class="d-inline-block " name="answer[${question.id}]" id="${option}" value="${index}">
                                 <div class="course">
                                     <span class="circle"></span>
                                     <span class="subject">${option}</span>
@@ -841,18 +938,91 @@ function getResultBySubject(id) {
                     console.log(quesionId, answerIndex, result, optionIndex);
                     var justify = "";
                     var rightAns = false;
-
                     if (answerIndex == optionIndex) {
                         justify = "bg-success";
                         rightAns = true;
                     }
-
                     if (result[quesionId] == optionIndex) {
                         if (!rightAns) {
-                            justify += " bg-warning";
+                            justify += " bg-danger";
                         }
                     }
+                    return justify;
+                }
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        },
+    });
+}
 
+function getResultBySubjectWithStudentID(id, stID) {
+    $.ajax({
+        method: "get",
+        url: window.origin + "/api/get-result-by-student-id/" + id + "/" + stID,
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                var questionsHtml = "";
+                $(".student_name").text(response.studentInfo.user_name);
+                $(".obtained_mark").text(response.result.result);
+                if (response.data.length > 0) {
+                    $("#examName").text(response.data[0].subject.name);
+                    response.data.forEach(function (question, index) {
+                        questionsHtml += "<div>";
+                        questionsHtml += `<p class="fw-bold mt-3">${
+                            index + 1
+                        }. ${question.question}</p>`;
+                        questionsHtml += '<div class="row">';
+                        question.options.forEach(function (option, index) {
+                            questionsHtml += `
+                        <div class="col-md-6">
+
+                           <label for="${
+                               question.id + index
+                           }" class="box  w-100 d-flex gap-3
+                           ${justifyResult(
+                               question.id,
+                               question.answer,
+                               response.result["answers"],
+                               index
+                           )}
+                        ">
+                           <input disabled type="radio" class="d-inline-block " name="answer[${
+                               question.id
+                           }]" id="${question.id + index}" value="${index}">
+                                <div class="course">
+                                    <span class="circle"></span>
+                                    <span class="subject">${option}</span>
+                                </div>
+                           </label>
+                        </div>`;
+                        });
+
+                        questionsHtml += " </div> </div>";
+                    });
+                }
+                $("#examResults").html(questionsHtml);
+
+                function justifyResult(
+                    quesionId,
+                    answerIndex,
+                    result,
+                    optionIndex
+                ) {
+                    console.log(quesionId, answerIndex, result, optionIndex);
+                    var justify = "";
+                    var rightAns = false;
+                    if (answerIndex == optionIndex) {
+                        justify = "bg-success";
+                        rightAns = true;
+                    }
+                    if (result[quesionId] == optionIndex) {
+                        if (!rightAns) {
+                            justify += " bg-danger";
+                        }
+                    }
                     return justify;
                 }
             }
@@ -873,7 +1043,10 @@ function fetchMe() {
                 $(".user_name").text(response.data.user_name);
                 $(".email").text(response.data.email);
                 $(".phone").text(response.data.phone);
-                $(".image").attr("src", response.data.image);
+                $(".image").attr(
+                    "src",
+                    response.data.image ?? "/assets/images/avatar.png"
+                );
                 Object.entries(response.data).forEach((element) => {
                     $("#" + element[0]).val(element[1]);
                 });

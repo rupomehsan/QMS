@@ -8,6 +8,7 @@
             if (credentials.information.is_Admin !== 1) {
                 window.location.href = '/'
             }
+            fetchMe()
         } else {
             window.location.href = '/'
         }

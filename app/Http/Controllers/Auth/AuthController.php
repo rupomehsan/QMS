@@ -10,6 +10,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UpdateProfileRequest;
 
 class AuthController extends Controller
 {
@@ -75,7 +76,7 @@ class AuthController extends Controller
     }
 
 
-    public function updateProfile(AuthRequest $request)
+    public function updateProfile(UpdateProfileRequest $request)
     {
 
         if (!$query = User::query()->where(["id" => auth()->id()])->first()) {
@@ -91,7 +92,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function fetchMe(AuthRequest $request)
+    public function fetchMe()
     {
 
         if ($query = User::where(["id" => auth()->id()])->first()) {

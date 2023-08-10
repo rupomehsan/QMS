@@ -13,7 +13,7 @@
                         </div>
                         <div class="text-center">
                             <img src="{{ asset('assets/images/login.png') }}" width="100" height="100"
-                                class="rounded-circle image">
+                                class="rounded-circle image border border-secondary shadow-lg">
                         </div>
                         <div class="text-center mt-3">
                             <h5 class="mt-2 mb-0 fw-bold user_name">Alexender Schidmt</h5>

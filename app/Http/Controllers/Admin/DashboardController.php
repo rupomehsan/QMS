@@ -12,7 +12,7 @@ class DashboardController extends Controller
 {
     public function statistics()
     {
-        $allUsers = User::count();
+        $allUsers = User::where('is_Admin', 0)->count();
         $allSubjects = Subject::count();
         $allQuestion = Question::count();
 

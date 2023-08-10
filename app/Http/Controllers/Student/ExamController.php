@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ExamResult;
 use App\Models\Question;
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -14,6 +15,25 @@ class ExamController extends Controller
     {
         try {
             $userId = auth()->user()->id;
+            $exams = Subject::with(['questions', 'exam_results' => function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            }])->get();
+            return response([
+                'status' => "success",
+                "data" => $exams
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                "status" => "server_error",
+                "message" => $e
+            ], 500);
+        }
+    }
+    public function getAllExamByStudentID($id)
+    {
+
+        try {
+            $userId = $id;
             $exams = Subject::with(['questions', 'exam_results' => function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             }])->get();
@@ -70,6 +90,31 @@ class ExamController extends Controller
             ], 500);
         }
     }
+    public function getExamResultByStudentID($id, $stdID)
+    {
+
+        try {
+            $questions = Question::with(['subject:id,name'])->where('subject_id', $id)->select(['id', 'question', 'subject_id', 'options', 'answer'])->get();
+            $result = ExamResult::where("user_id", $stdID)->where("subject_id", $id)->select('answers', 'result')->first();
+            $studentInfo = User::where("id", $stdID)->select('user_name')->first();
+            return response([
+                'status' => "success",
+                "data" => $questions,
+                "result" => $result,
+                "studentInfo" => $studentInfo,
+            ]);
+
+            return response([
+                'status' => "success",
+                "data" => $questions
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                "status" => "server_error",
+                "message" => $e
+            ], 500);
+        }
+    }
 
     public function attemptExam()
     {
@@ -79,14 +124,26 @@ class ExamController extends Controller
         $rongAns = 0;
 
 
-
+        // dd($data);
 
         if (!array_key_exists('answer', $data)) {
             return response([
                 "status" => "error",
-                "message" => "Please select the  answer"
+                "message" => "Please select all the answers to the following questions."
             ], 401);
         }
+
+        if (array_key_exists('answer', $data)) {
+            $totalQ = Question::where("subject_id", $data['subject_id'])->count();
+            if ($totalQ !== count($data['answer'])) {
+                return response([
+                    "status" => "error",
+                    "message" => "Please select the all  answer of the following questions"
+                ], 401);
+            }
+        }
+
+
 
 
         foreach ($data['answer'] as $questionId => $answer) {

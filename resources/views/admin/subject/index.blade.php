@@ -6,11 +6,13 @@
                 <div class="col-md-12">
                     <div class="tab-category">
                         <ul>
-                            <li><a href="index.html"><i class="fas fa-home"></i>Dashboard</a></li>
-                            <li><i class="fas fa-dot-circle"></i>Subject</li>
-                            <li><i class="fas fa-dot-circle"></i>List Subjects</li>
+                            <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                            <li><i class="fas fa-dot-circle"></i> Subject Lists</li>
                         </ul>
                     </div>
+
+
+
                     <div class="datas-tables bg-light rounded my-2 pt-4 pb-5 px-5">
                         <div class="d-flex justify-content-between">
                             <h5 class=" text-dark">All Subjects</h5>
@@ -32,22 +34,46 @@
                         </div>
 
                         <hr style="margin-block: 20px;">
-                        <table style="padding-top: 20px;padding-bottom: 20px;"
-                            class="table table-bordered table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th> <input type="checkbox" title="Select all" class="all-checker"> Sl No</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id='data_list'>
+                        <div class="relative">
+                            <div class="product_placeholder ">
+                                <div class="ph-item">
+                                    <div class="ph-col-12">
+                                        <div class="ph-picture"></div>
+                                        <div class="ph-row">
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12"></div>
+                                            <div class="ph-col-12"></div>
+                                            <div class="ph-col-12"></div>
+                                            <div class="ph-col-12"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table style="padding-top: 20px;padding-bottom: 20px;"
+                                class="table table-bordered table-striped table-hover  ">
+
+                                <thead>
+                                    <tr>
+                                        <th> <input type="checkbox" title="Select all" class="all-checker"> Sl No</th>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id='data_list'>
 
 
-                            </tbody>
-                        </table>
-                        <ul id="paginateNav" class="pagination justify-content-end"></ul>
+                                </tbody>
+                            </table>
+                            <ul id="paginateNav" class="pagination justify-content-end"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -72,7 +98,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button id="submit-button" type="submit" class="btn btn-primary ">Save
+                        <button id="submit-button" type="submit" class="btn btn-primary "><span
+                                class="submit-button"></span>
                             <span class="spinner-border mx-3 spinner-border-sm submit-loader d-none" role="status"
                                 aria-hidden="true"></span></button>
                     </div>
@@ -169,13 +196,10 @@
                 onclick: null
             };
             var id = $(this).data('id');
-            // alert(id);
             if ($(this).prop('checked')) {
                 var properties = 'active'
-                // alert(properties)
             } else {
                 var properties = 'inactive'
-                //  alert(properties)
             }
 
             $.ajax({
@@ -225,8 +249,6 @@
             } else {
                 $("#bulkActions").addClass("d-none")
             }
-
-            // console.log(checkLIstArray)
         })
 
         $(document).on("click", ".checkbox-item", function() {
@@ -239,14 +261,19 @@
 
             if (checkLIstArray.length > 0) {
                 $("#bulkActions").removeClass("d-none")
+                let checkItem = document.querySelectorAll('.checkbox-item');
+
+                if (checkItem.length == checkLIstArray.length) {
+                    $(".all-checker").attr('checked', true)
+                }
             } else {
                 $("#bulkActions").addClass("d-none")
+                $(".all-checker").attr('checked', false)
             }
-            // console.log(checkLIstArray)
         })
 
         function UpdatecheckList() {
-            var checkItem = document.querySelectorAll('.checkbox-item');
+            let checkItem = document.querySelectorAll('.checkbox-item');
             checkItem.forEach(function(item) {
                 if (item.checked) {
                     var value = item.value
@@ -260,9 +287,7 @@
         function itemActions(action) {
             if (checkLIstArray.length === 0) {
                 toastr.warning("Please select a item first")
-
             } else {
-                // alert(checkLIstArray.length)
                 $.ajax({
                     url: window.origin + "/api/subjects/bulk_actions",
                     type: "post",
@@ -280,6 +305,8 @@
                     success: function(res) {
                         if (res.status === "success") {
                             toastr.success(res.message);
+                            $(".all-checker").attr('checked', false)
+                            checkLIstArray = []
                             getAllData(url, "data_list", headers, actions);
                         }
                     },
@@ -289,7 +316,7 @@
                         }
                     },
                     complete: function() {
-                        $("#preloader").addClass('d-none');
+                        $(".checkbox-item").prop('checked', false)
                     }
                 }); //ajax
             }

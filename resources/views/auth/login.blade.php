@@ -26,8 +26,9 @@
                                 <div class="text-danger" id="email_error"></div>
                                 <div class="form-field d-flex align-items-center password ">
                                     <span class="fas fa-key"></span>
-                                    <input type="text" name="password" id="password" placeholder="Password"
+                                    <input type="password" name="password" id="password" placeholder="Password"
                                         onkeyup="clearError(this)">
+                                    <i class="fas fa-eye-slash mx-3 cursor-pointer" onclick="iconChange()"></i>
 
                                 </div>
                                 <div class="text-danger" id="password_error"></div>
@@ -99,6 +100,21 @@
         function setCredential(email, password) {
             $("#email").val(email)
             $("#password").val(password)
+        }
+
+
+        function iconChange() {
+
+            if ($("#password").attr('type') == 'text') {
+                $("#password").attr('type', 'password')
+                $('.cursor-pointer').removeClass('fa-eye-slash')
+                $('.cursor-pointer').addClass('fa-eye')
+            } else {
+                $("#password").attr('type', 'text')
+                $('.cursor-pointer').addClass('fa-eye-slash')
+                $('.cursor-pointer').removeClass('fa-eye')
+            }
+
         }
         /**
          * setCredential

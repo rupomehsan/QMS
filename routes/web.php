@@ -28,7 +28,7 @@ Route::prefix('admin')->group(function () {
     Route::view('subject', 'admin.subject.index')->name('admin.subject');
     Route::view('question', 'admin.question.index')->name('admin.question');
     Route::view('student', 'admin.student.index')->name('admin.student');
-    Route::view('student-result', 'admin.result.index')->name('admin.student.result');
+    Route::view('student-result/{id}/{std_id}/{slug}', 'admin.result.index')->name('admin.student.result');
 });
 
 Route::prefix('student')->group(function () {

@@ -6,8 +6,8 @@
                 <div class="col-md-12">
                     <div class="tab-category">
                         <ul>
-                            <li><a href="index.html"><i class="fas fa-home"></i>Dashboard</a></li>
-                            <li><i class="fas fa-dot-circle"></i>Question</li>
+                            <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                            <li><i class="fas fa-dot-circle"></i> Question</li>
 
                         </ul>
                     </div>
@@ -32,23 +32,46 @@
                         </div>
 
                         <hr style="margin-block: 20px;">
-                        <table style="padding-top: 20px;padding-bottom: 20px;"
-                            class="table table-bordered table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th> <input type="checkbox" title="Select all" class="all-checker"> Sl No</th>
-                                    <th>Subject</th>
-                                    <th>Question</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id='data_list'>
+                        <div class="relative">
+                            <div class="product_placeholder ">
+                                <div class="ph-item">
+                                    <div class="ph-col-12">
+                                        <div class="ph-picture"></div>
+                                        <div class="ph-row">
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12"></div>
+                                            <div class="ph-col-12"></div>
+                                            <div class="ph-col-12"></div>
+                                            <div class="ph-col-12"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table style="padding-top: 20px;padding-bottom: 20px;"
+                                class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th> <input type="checkbox" title="Select all" class="all-checker"> Sl No</th>
+                                        <th>Question</th>
+                                        <th>Subject</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id='data_list'>
 
 
-                            </tbody>
-                        </table>
-                        <ul id="paginateNav" class="pagination justify-content-end"></ul>
+                                </tbody>
+                            </table>
+                            <ul id="paginateNav" class="pagination justify-content-end"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -57,7 +80,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <form id="formSubmit" method="post" name="form" class="p-3 mt-3" autocomplete="off">
                     <input type="hidden" name="id" id="id">
@@ -97,7 +120,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button id="submit-button" type="submit" class="btn btn-primary ">Save
+                        <button id="submit-button" type="submit" class="btn btn-primary "><span
+                                class="submit-button"></span>
                             <span class="spinner-border mx-3 spinner-border-sm submit-loader d-none" role="status"
                                 aria-hidden="true"></span></button>
                     </div>
@@ -113,13 +137,13 @@
         let i = 0;
         $(function() {
             $.ajax({
-                url: window.origin + "/api/subjects",
+                url: window.origin + "/api/subjects?get_all",
                 method: "get",
                 dataType: "json",
                 success: function(res) {
-                    if (res.status === "success" && res.data.data.length > 0) {
+                    if (res.status === "success" && res.data.length > 0) {
                         $("#subject_id").empty();
-                        res.data.data.forEach((item) => {
+                        res.data.forEach((item) => {
                             $("#subject_id").append(`
                              <option value="${item.id}">${item.name}</option>
                          `);
@@ -146,13 +170,14 @@
                 field: 'id'
             },
             {
-                title: 'Subject',
-                field: 'subject'
-            },
-            {
                 title: 'Question',
                 field: 'question'
             },
+            {
+                title: 'Subject',
+                field: 'subject'
+            },
+
 
             {
                 title: 'Status',
@@ -335,7 +360,9 @@
                     success: function(res) {
                         if (res.status === "success") {
                             toastr.success(res.message);
+                            $(".all-checker").attr('checked', false)
                             getAllData(url, "data_list", headers, actions);
+                            checkLIstArray = []
                         }
                     },
                     error: function(jqXhr, ajaxOptions, thrownError) {

@@ -33,3 +33,5 @@ Route::get('get-all-exams', [\App\Http\Controllers\Student\ExamController::class
 Route::get('get-all-questions-by-subject/{id}', [\App\Http\Controllers\Student\ExamController::class, "getAllQuestionsBySubject"])->middleware(['auth:sanctum']);
 Route::post('attempt-exam', [\App\Http\Controllers\Student\ExamController::class, "attemptExam"])->middleware(['auth:sanctum']);
 Route::get('exam-result-by-subject/{id}', [\App\Http\Controllers\Student\ExamController::class, "examResultBySubject"])->middleware(['auth:sanctum']);
+Route::get('get-all-exams-by-student-id/{id}', [\App\Http\Controllers\Student\ExamController::class, "getAllExamByStudentID"]);
+Route::get('get-result-by-student-id/{id}/{stdID}', [\App\Http\Controllers\Student\ExamController::class, "getExamResultByStudentID"]);

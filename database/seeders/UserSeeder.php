@@ -15,11 +15,23 @@ class UserSeeder extends Seeder
     {
         User::create([
             'user_name' => 'admin',
-            'phone' => 'admin',
+            'phone' => '016123456789',
             'is_admin' => 1,
             'email' => 'admin@gmail.com',
             'password' => bcrypt('123456'),
+            'dummy_user' => 1
         ]);
-        User::factory()->count(10)->create();
+
+
+        for ($i = 1; $i < 10; $i++) {
+            User::create([
+                'user_name' => 'student_' . $i,
+                'phone' => '016123456789',
+                'is_admin' => 0,
+                'email' => 'student_' . $i . '@gmail.com',
+                'password' => bcrypt('123456'),
+                'dummy_user' => 1
+            ]);
+        }
     }
 }

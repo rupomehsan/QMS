@@ -29,12 +29,12 @@
                 <span class="fas fa-key"></span>
                 <input type="password" name="password" id="password" placeholder="Password" onkeyup="clearError(this)">
             </div>
-            <div class="text-danger" id="email_password"></div>
+            <div class="text-danger" id="password_error"></div>
 
             <div class="form-field d-flex align-items-center confirm_password">
                 <span class="fas fa-key"></span>
-                <input type="confirm_password" name="confirm_password" id="confirm_password"
-                    placeholder="Confirm Password" onkeyup="clearError(this)">
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password"
+                    onkeyup="clearError(this)">
             </div>
             <div class="text-danger" id="confirm_password_error"></div>
 

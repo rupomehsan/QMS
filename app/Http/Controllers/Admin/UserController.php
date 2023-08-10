@@ -16,8 +16,6 @@ class UserController extends Controller
     {
         try {
 
-
-
             $fields = [
                 'id',
                 'user_name',
@@ -29,11 +27,10 @@ class UserController extends Controller
 
             $condition = [];
             $with = [];
-            $queries = User::query();
+            $queries = User::query(); 
 
-            if (request()->input('get_all')) {
-
-                $queries = $queries->get();
+            if (request()->has('get_all')) {
+                $queries = $queries->where('dummy_user', 1)->get();
                 return response([
                     "status" => "success",
                     "data" => $queries
@@ -46,16 +43,16 @@ class UserController extends Controller
             if (request()->has('status') && request()->input('status')) {
                 $condition['status'] = request()->input('status');
             }
-            if (request()->input('is_Admin') == 0) {
-                $condition['is_Admin'] = request()->input('is_Admin');
+
+            if (auth()->user()->is_Admin == '1') {
+                $condition['is_Admin'] = 0;
             }
 
             if (request()->has('search') && request()->input('search')) {
                 $queries = $queries->where('user_name', 'like', '%' . request()->input('search') . '%');
             }
 
-
-            $queries = $queries->with($with)->select($fields)->where($condition)->latest()->paginate();
+            $queries = $queries->with($with)->select($fields)->where($condition)->latest()->paginate(5);
 
 
 
@@ -144,6 +141,7 @@ class UserController extends Controller
      */
     public function update(string $id, AuthRequest $request)
     {
+
         try {
             if (!$query = User::query()->where(["id" => $id])->first()) {
                 return response([

@@ -15,6 +15,9 @@ class QuestionController extends Controller
     public function index()
     {
         try {
+
+
+
             $offset = request()->input('offset') ?? 10;
             $fields = [
                 'id',
@@ -90,6 +93,9 @@ class QuestionController extends Controller
                         "message" => "Please select answer"
                     ], 401);
                 }
+
+
+
 
                 if (Question::query()->create($request->validated())) {
                     return response([

@@ -6,8 +6,8 @@
                 <div class="col-md-12">
                     <div class="tab-category">
                         <ul>
-                            <li><a href="index.html"><i class="fas fa-home"></i>Dashboard</a></li>
-                            <li><i class="fas fa-dot-circle"></i>Students</li>
+                            <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                            <li><i class="fas fa-dot-circle"></i> Students</li>
                         </ul>
                     </div>
                     <div class="datas-tables bg-light rounded my-2 pt-4 pb-5 px-5">
@@ -31,24 +31,47 @@
                         </div>
 
                         <hr style="margin-block: 20px;">
-                        <table style="padding-top: 20px;padding-bottom: 20px;"
-                            class="table table-bordered table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th> <input type="checkbox" title="Select all" class="all-checker"> Sl No</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id='data_list'>
+                        <div class="relative">
+                            <div class="product_placeholder ">
+                                <div class="ph-item">
+                                    <div class="ph-col-12">
+                                        <div class="ph-picture"></div>
+                                        <div class="ph-row">
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12 big"></div>
+                                            <div class="ph-col-12"></div>
+                                            <div class="ph-col-12"></div>
+                                            <div class="ph-col-12"></div>
+                                            <div class="ph-col-12"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table style="padding-top: 20px;padding-bottom: 20px;"
+                                class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th> <input type="checkbox" title="Select all" class="all-checker"> Sl No</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id='data_list'>
 
 
-                            </tbody>
-                        </table>
-                        <ul id="paginateNav" class="pagination justify-content-end"></ul>
+                                </tbody>
+                            </table>
+                            <ul id="paginateNav" class="pagination justify-content-end"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,8 +83,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="formSubmit" method="post" name="form" class="p-3 mt-3" autocomplete="off">
+                    <input type="hidden" name="id" id="id">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"> <span id="actionTitle">Add</span> Subject</h5>
+                        <h5 class="modal-title" id="exampleModalLabel"> <span id="actionTitle">Add</span> Student</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body gap-3">
@@ -83,17 +107,17 @@
                                 onkeyup="clearError(this)">
                             <div class="text-danger" id="phone_error"></div>
                         </div>
-                        <div class="password">
-                            <label for="name">Password</label>
-                            <input type="text" class="form-control my-2" name="password" id="password"
-                                onkeyup="clearError(this)">
-                            <div class="text-danger" id="password_error"></div>
+                        <div class="password-section">
+                            <div class="hide-password">
+
+                            </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button id="submit-button" type="submit" class="btn btn-primary ">Save
+                        <button id="submit-button" type="submit" class="btn btn-primary "> <span
+                                class="submit-button"></span>
                             <span class="spinner-border mx-3 spinner-border-sm submit-loader d-none" role="status"
                                 aria-hidden="true"></span></button>
                     </div>
@@ -112,36 +136,13 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body gap-3">
-                        <div class="row gap-3 justify-content-center">
-                            <div class="card col-md-4 bg-info text-dark" style="width: 18rem;">
-                                <div class="card-body text-center">
-                                    <h5 class="bg-secondary text-white py-2">HTML</h5>
-                                    <p class="card-text fw-bold">Tital Marks : 10 </p>
-                                    <p class="card-text fw-bold">Obtained Mark : 10 </p>
-                                    <a href="#" class="btn btn-success">Passed</a>
-                                </div>
-                            </div>
-                            <div class="card col-md-4 bg-info text-dark" style="width: 18rem;">
-                                <div class="card-body text-center">
-                                    <h5 class="bg-secondary text-white py-2">CSS</h5>
-                                    <p class="card-text fw-bold">Tital Marks : 10 </p>
-                                    <p class="card-text fw-bold">Obtained Mark : 10 </p>
-                                    <a href="#" class="btn btn-success">Passed</a>
-                                </div>
-                            </div>
-                            <div class="card col-md-4 bg-info text-dark" style="width: 18rem;">
-                                <div class="card-body text-center">
-                                    <h5 class="bg-secondary text-white py-2">JAVASCRIPT</h5>
-                                    <p class="card-text fw-bold">Tital Marks : 10 </p>
-                                    <p class="card-text fw-bold">Obtained Mark : 10 </p>
-                                    <a href="#" class="btn btn-success">Passed</a>
-                                </div>
-                            </div>
+                        <div>
+                            <p class="uppercase fw-bold text-center bg-info py-3">Exams</p>
+                        </div>
+                        <div class="row gap-3 justify-content-center" id="allExam">
 
                         </div>
-
                     </div>
-
                 </form>
             </div>
         </div>
@@ -154,7 +155,7 @@
         /**
          * table generator;
          **/
-        let url = window.origin + "/api/users?is_Admin=0";
+        let url = window.origin + "/api/users";
         let headers = [{
                 title: 'Sl No',
                 field: 'id'
@@ -190,7 +191,7 @@
             {
                 label: 'Delete',
                 url: "{{ url('/api/users/:id') }}",
-                param: "?is_Admin=0"
+
             },
             {
                 label: 'Result',
@@ -209,7 +210,7 @@
 
         $(document).on("keyup", "#search_data", function() {
             let data = $(this).val();
-            let url = window.origin + "/api/users?is_Admin=0";
+            let url = window.origin + "/api/users";
             getSearchData(url, data, "data_list", headers, actions)
         })
 
@@ -227,7 +228,7 @@
             if (editId) {
                 url = `${window.origin}/api/users/${editId}`;
             } else {
-                url = window.origin + "/api/users?is_Admin=0";
+                url = window.origin + "/api/users";
             }
 
             let button = {
@@ -236,6 +237,7 @@
             }
 
             formSubmitLanding(url, method, form, button, cb = true);
+
         })
 
         /**
@@ -361,6 +363,7 @@
                     success: function(res) {
                         if (res.status === "success") {
                             toastr.success(res.message);
+                            $(".checkbox-item").prop('checked', false)
                             getAllData(url, "data_list", headers, actions);
                         }
                     },

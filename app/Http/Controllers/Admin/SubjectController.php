@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SubjectRequest;
+use App\Models\Question;
 use App\Models\Subject;
 
 class SubjectController extends Controller
@@ -36,7 +37,15 @@ class SubjectController extends Controller
             if (request()->has('search') && request()->input('search')) {
                 $queries = $queries->where('name', 'like', '%' . request()->input('search') . '%');
             }
-            $queries = $queries->with($with)->select($fields)->where($condition)->latest()->paginate(5);
+
+            if (request()->has('get_all')) {
+                $queries = $queries->with($with)->select($fields)->where($condition)->get();
+            } else {
+
+                $queries = $queries->with($with)->select($fields)->where($condition)->latest()->paginate(5);
+            }
+
+
             return response([
                 "status" => "success",
                 "data" => $queries
@@ -154,7 +163,10 @@ class SubjectController extends Controller
                     "message" => "No configure found..."
                 ], 404);
             }
-            $query->delete();
+            $questions = Question::query()->where('subject_id', $id);
+            if ($query->delete()) {
+                $questions->delete();
+            }
             return response([
                 "status" => "success",
                 "message" => "Subject successfully delete"
@@ -185,9 +197,13 @@ class SubjectController extends Controller
                     $target->update();
                 }
             } else if ($request->actions === "delete") {
+
                 foreach ($request->itemList as $item) {
                     $target = Subject::where('id', $item)->first();
-                    $target->delete();
+                    $question = Question::query()->where('subject_id', $item);
+                    if ($target->delete()) {
+                        $question->delete();
+                    }
                 }
             }
             return response([
