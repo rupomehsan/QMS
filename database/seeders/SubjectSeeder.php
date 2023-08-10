@@ -13,6 +13,21 @@ class SubjectSeeder extends Seeder
      */
     public function run(): void
     {
-        Subject::factory()->count(10)->create();
+
+        Subject::create([
+            "name" => "HTML"
+        ]);
+        Subject::create([
+            "name" => "CSS"
+        ]);
+        Subject::create([
+            "name" => "JAVASCRIPT"
+        ]);
+        Subject::create([
+            "name" => "PHP"
+        ]);
+
+
+        // Subject::factory()->count(10)->create();
     }
 }

@@ -32,7 +32,7 @@
                         </div>
 
                         <hr style="margin-block: 20px;">
-                        <div class="relative">
+                        <div class="table-relative">
                             <div class="product_placeholder ">
                                 <div class="ph-item">
                                     <div class="ph-col-12">
@@ -305,8 +305,6 @@
             } else {
                 $("#bulkActions").addClass("d-none")
             }
-
-            // console.log(checkLIstArray)
         })
 
         $(document).on("click", ".checkbox-item", function() {
@@ -319,22 +317,25 @@
 
             if (checkLIstArray.length > 0) {
                 $("#bulkActions").removeClass("d-none")
+                let checkItem = document.querySelectorAll('.checkbox-item');
+
+                if (checkItem.length == checkLIstArray.length) {
+                    $(".all-checker").prop('checked', true)
+                }
             } else {
                 $("#bulkActions").addClass("d-none")
+                $(".all-checker").prop('checked', false)
             }
-            // console.log(checkLIstArray)
         })
 
         function UpdatecheckList() {
-            var checkItem = document.querySelectorAll('.checkbox-item');
+            let checkItem = document.querySelectorAll('.checkbox-item');
             checkItem.forEach(function(item) {
                 if (item.checked) {
                     var value = item.value
                     checkLIstArray.push(value)
                 }
             })
-
-
         }
 
         function itemActions(action) {

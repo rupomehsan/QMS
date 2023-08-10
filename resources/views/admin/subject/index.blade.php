@@ -34,7 +34,7 @@
                         </div>
 
                         <hr style="margin-block: 20px;">
-                        <div class="relative">
+                        <div class="table-relative">
                             <div class="product_placeholder ">
                                 <div class="ph-item">
                                     <div class="ph-col-12">
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                             <table style="padding-top: 20px;padding-bottom: 20px;"
-                                class="table table-bordered table-striped table-hover  ">
+                                class="table table-bordered table-striped table-hover table-responsive ">
 
                                 <thead>
                                     <tr>
@@ -264,11 +264,11 @@
                 let checkItem = document.querySelectorAll('.checkbox-item');
 
                 if (checkItem.length == checkLIstArray.length) {
-                    $(".all-checker").attr('checked', true)
+                    $(".all-checker").prop('checked', true)
                 }
             } else {
                 $("#bulkActions").addClass("d-none")
-                $(".all-checker").attr('checked', false)
+                $(".all-checker").prop('checked', false)
             }
         })
 
@@ -280,8 +280,6 @@
                     checkLIstArray.push(value)
                 }
             })
-
-
         }
 
         function itemActions(action) {

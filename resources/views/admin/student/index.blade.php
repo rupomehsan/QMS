@@ -31,7 +31,7 @@
                         </div>
 
                         <hr style="margin-block: 20px;">
-                        <div class="relative">
+                        <div class="table-relative">
                             <div class="product_placeholder ">
                                 <div class="ph-item">
                                     <div class="ph-col-12">

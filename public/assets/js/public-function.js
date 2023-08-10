@@ -13,12 +13,13 @@ function formSubmitLanding(url, method, form, button, cb = false) {
         method: method,
         url: url,
         data: formData,
+        dataType: "json",
         headers: {
             Authorization: credentials ? credentials.token : "",
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
         beforeSend: function () {
-            // $(button.submitButton).prop("disabled", true);
+            $(button.submitButton).prop("disabled", true);
             $(button.loaderButton).removeClass("d-none");
         },
         success: function (response) {
@@ -101,6 +102,9 @@ function getAllStudents() {
         url: "api/users?get_all",
         method: "get",
         dataType: "json",
+        headers: {
+            "Content-Type": "application/json",
+        },
         success: function (res) {
             if (res.status === "success" && res.data.length > 0) {
                 $("#tableData").empty();
@@ -141,6 +145,9 @@ function getStatistics() {
         url: window.origin + "/api/statistics",
         method: "get",
         dataType: "json",
+        headers: {
+            "Content-Type": "application/json",
+        },
         success: function (res) {
             if (res.status === "success") {
                 $(".users").text(res.data.allUsers);
@@ -187,6 +194,9 @@ function getEditContent(url) {
         url: url,
         dataType: "json",
         method: "get",
+        headers: {
+            "Content-Type": "application/json",
+        },
         success: function (res) {
             if (res.status === "success") {
                 editDataCategoryId = res.data.category_id || "";
@@ -404,6 +414,9 @@ function getAllData(url, id, headers, actions = [], searchData = null) {
         type: "GET",
         url: url,
         dataType: "json",
+        headers: {
+            "Content-Type": "application/json",
+        },
         beforeSend: function () {
             // $("#data_list").addClass("d-none");
             // $(".product_placeholder").removeClass("d-none");
@@ -466,6 +479,9 @@ function getDateSearchData(
         url: url,
         dataType: "json",
         data: { value: value },
+        headers: {
+            "Content-Type": "application/json",
+        },
         success: function (response) {
             if (response.status === "success") {
                 let res = response.data;
@@ -493,49 +509,7 @@ function getDateSearchData(
         },
     });
 }
-/**
- * GET date search Data
- */
-function getDateRangeSearchData(
-    url,
-    value,
-    id,
-    headers,
-    actions = [],
-    searchData = null
-) {
-    $.ajax({
-        method: "post",
-        url: url,
-        dataType: "json",
-        data: { value: value },
-        success: function (response) {
-            if (response.status === "success") {
-                let res = response.data;
-                generateTable(id, headers, res, actions);
-                setPagination(
-                    response.data.total,
-                    response.data.per_page,
-                    response.data.current_page,
-                    response.data.next_page_url,
-                    response.data.prev_page_url
-                );
-                paginateItemClick(
-                    url,
-                    id,
-                    headers,
-                    actions,
-                    searchData,
-                    value,
-                    "searchDateRange"
-                );
-            }
-        },
-        error: function (err) {
-            console.log(err);
-        },
-    });
-}
+
 /**
  * GET  search Data
  */
@@ -552,6 +526,9 @@ function getSearchData(
         url: url,
         dataType: "json",
         data: { search: value },
+        headers: {
+            "Content-Type": "application/json",
+        },
         success: function (response) {
             if (response.status === "success") {
                 let res = response.data;
@@ -700,7 +677,9 @@ function deleteItem(url, cbUrl) {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
                         "content"
                     ),
+                    "Content-Type": "application/json",
                 },
+
                 success: function (res) {
                     console.log(res);
                     if (res.status === "success") {
@@ -767,6 +746,9 @@ function getAllExams() {
         method: "get",
         url: window.origin + "/api/get-all-exams",
         dataType: "json",
+        headers: {
+            "Content-Type": "application/json",
+        },
         success: function (response) {
             if (response.status === "success") {
                 response.data.forEach((item) => {
@@ -806,6 +788,9 @@ function getAllExamsByStudentID(id) {
         method: "get",
         url: window.origin + "/api/get-all-exams-by-student-id/" + id,
         dataType: "json",
+        headers: {
+            "Content-Type": "application/json",
+        },
         success: function (response) {
             if (response.status === "success") {
                 $("#allExam").empty();
@@ -846,6 +831,9 @@ function getAllQuestionBySubject(id) {
         method: "get",
         url: window.origin + "/api/get-all-questions-by-subject/" + id,
         dataType: "json",
+        headers: {
+            "Content-Type": "application/json",
+        },
         success: function (response) {
             if (response.status === "success") {
                 console.log("data", response.data);
@@ -888,6 +876,9 @@ function getResultBySubject(id) {
         method: "get",
         url: window.origin + "/api/exam-result-by-subject/" + id,
         dataType: "json",
+        headers: {
+            "Content-Type": "application/json",
+        },
         success: function (response) {
             if (response.status === "success") {
                 var questionsHtml = "";
@@ -962,6 +953,9 @@ function getResultBySubjectWithStudentID(id, stID) {
         method: "get",
         url: window.origin + "/api/get-result-by-student-id/" + id + "/" + stID,
         dataType: "json",
+        headers: {
+            "Content-Type": "application/json",
+        },
         success: function (response) {
             if (response.status === "success") {
                 var questionsHtml = "";
@@ -1038,6 +1032,9 @@ function fetchMe() {
         method: "get",
         url: window.origin + "/api/fetch-me",
         dataType: "json",
+        headers: {
+            "Content-Type": "application/json",
+        },
         success: function (response) {
             if (response.status === "success") {
                 $(".user_name").text(response.data.user_name);

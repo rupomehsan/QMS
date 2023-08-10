@@ -87,13 +87,22 @@ class QuestionController extends Controller
                     ], 401);
                 }
 
+                foreach ($request['options'] as $option) {
+                    if (!$option) {
+                        return response([
+                            "status" => 'error',
+                            "message" => "Options can't be empty"
+                        ], 401);
+                    }
+                }
+
+
                 if (!(array_key_exists("answer", $request->all()))) {
                     return response([
                         "status" => 'error',
                         "message" => "Please select answer"
                     ], 401);
                 }
-
 
 
 

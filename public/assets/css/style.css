@@ -632,6 +632,11 @@ label.box {
 .relative {
     position: relative;
 }
+
+.table-relative {
+    position: relative;
+    overflow: hidden;
+}
 .ph-item {
     position: relative;
     display: -webkit-box;
