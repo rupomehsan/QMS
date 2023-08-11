@@ -173,19 +173,15 @@ or
 
 ```
 composer update
-
 ```
 
 swith directory to project
 
 ```
 cd QMS
-
 ```
 
-```
 generate app key
-```
 
 ```
 php artisan key:generate
