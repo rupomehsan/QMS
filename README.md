@@ -167,11 +167,11 @@ install dependencies
 ```
 composer install
 
+```
 
 or
 
 ```
-
 composer update
 
 ```
@@ -179,15 +179,15 @@ composer update
 swith directory to project
 
 ```
-
 cd QMS
 
 ```
 
+```
 generate app key
-
 ```
 
+```
 php artisan key:generate
 
 ```
@@ -261,4 +261,7 @@ pass: 12345678
 | user_8@gmail.com  | `12345678` |
 | user_9@gmail.com  | `12345678` |
 | user_10@gmail.com | `12345678` |
+
+```
+
 ```
