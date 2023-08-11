@@ -166,7 +166,6 @@ install dependencies
 
 ```
 composer install
-
 ```
 
 or
@@ -185,7 +184,6 @@ generate app key
 
 ```
 php artisan key:generate
-
 ```
 
 open .env file and change db name.
@@ -205,9 +203,7 @@ DB_PASSWORD=
 migrate database, and seed
 
 ```
-
 php artisan migrate:fresh --seed
-
 ```
 
 ```
@@ -217,9 +213,7 @@ Finally time to launch project, run
 ```
 
 ```
-
 php artisan serve
-
 ```
 
 the project will open at http://127.0.0.1:8000
@@ -227,9 +221,7 @@ the project will open at http://127.0.0.1:8000
 or
 
 ```
-
 php artisan serve --port=8001 | any supported port number
-
 ```
 
 **database seed will generate**
