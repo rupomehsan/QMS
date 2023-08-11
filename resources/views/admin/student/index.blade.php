@@ -7,12 +7,12 @@
                     <div class="tab-category">
                         <ul>
                             <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
-                            <li><i class="fas fa-dot-circle"></i> Students</li>
+                            <li><i class="fas fa-dot-circle"></i> Users</li>
                         </ul>
                     </div>
                     <div class="datas-tables bg-light rounded my-2 pt-4 pb-5 px-5">
                         <div class="d-flex justify-content-between">
-                            <h5 class=" text-dark">All Students</h5>
+                            <h5 class=" text-dark">All Users</h5>
                             <div class="dropdown d-none" id="bulkActions">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -85,7 +85,7 @@
                 <form id="formSubmit" method="post" name="form" class="p-3 mt-3" autocomplete="off">
                     <input type="hidden" name="id" id="id">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"> <span id="actionTitle">Add</span> Student</h5>
+                        <h5 class="modal-title" id="exampleModalLabel"> <span id="actionTitle">Add</span> User</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body gap-3">
@@ -131,13 +131,13 @@
             <div class="modal-content">
                 <form id="formSubmit" method="post" name="form" class="p-3 mt-3" autocomplete="off">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"> Student Results
+                        <h5 class="modal-title" id="exampleModalLabel"> User Results
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body gap-3">
                         <div>
-                            <p class="uppercase fw-bold text-center bg-info py-3">Exams</p>
+                            <p class="uppercase fw-bold text-center bg-info py-3">Quiz</p>
                         </div>
                         <div class="row gap-3 justify-content-center" id="allExam">
 

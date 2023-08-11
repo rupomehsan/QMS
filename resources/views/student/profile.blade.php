@@ -32,7 +32,7 @@
                                 </table>
                             </div>
                             <div>
-                                <p class="uppercase fw-bold text-center bg-info py-3">Exams</p>
+                                <p class="uppercase fw-bold text-center bg-info py-3">Quiz</p>
                             </div>
                             <div class="row gap-3 justify-content-center" id="allExam">
                             </div>

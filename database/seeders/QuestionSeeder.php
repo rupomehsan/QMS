@@ -59,7 +59,7 @@ class QuestionSeeder extends Seeder
                 "Cascade style sheets",
                 "None of the above"
             ],
-            "answer" => 2,
+            "answer" => 1,
         ]);
 
         Question::create([

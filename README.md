@@ -162,6 +162,12 @@ git clone https://github.com/rupomehsan/QMS.git
 
 or [Click here to download .zip](https://github.com/rupomehsan/QMS/archive/refs/heads/main.zip)
 
+swith directory to project
+
+```
+cd QMS
+```
+
 install dependencies
 
 ```
@@ -172,12 +178,6 @@ or
 
 ```
 composer update
-```
-
-swith directory to project
-
-```
-cd QMS
 ```
 
 generate app key
@@ -206,11 +206,7 @@ migrate database, and seed
 php artisan migrate:fresh --seed
 ```
 
-```
-
-Finally time to launch project, run
-
-```
+It's finally time to launch the project .
 
 ```
 php artisan serve
