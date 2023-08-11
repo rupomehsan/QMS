@@ -22,17 +22,13 @@ This website has two Roles:
 
 ## Model
 
-Application flowchart :
-
+<h3>Application flowchart :</h3>
 <div>
-	<h3> Process flowchart </h3>
 	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/flowc.png?raw=true">
 </div>
 
-Entity relationship diagram :
-
+<h3> Entity relationship diagram : </h3>
 <div>
-	<h3> Database design </h3>
 	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/er-d.png?raw=true">
 </div>
 
@@ -49,6 +45,7 @@ Entity relationship diagram :
     -   see the results of the applicant quiz
 
 -   quiz management
+
     -   manage quiz subject
         -   create
         -   edit
@@ -63,13 +60,23 @@ Entity relationship diagram :
         -   attach quiz question to each topics
         -   edit
         -   delete
-        -
+
+-   User management
+
+    -   manage user
+
+        -   create
+        -   edit
+        -   update
+        -   delete
+        -   can see result details of every aplicants
 
 ## Technologies
 
 -   PHP Laravel
 -   mySQL
 -   HTML
+-   CSS
 -   Java Script
 -   Bootstrap
 
@@ -89,7 +96,7 @@ Entity relationship diagram :
 
 <div>
 	<h3> Admin dashboard</h3>
-	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/dashboard.jpg?raw=true">
+	<img width="700" src="https://github.com/rupomehsan/QMS/blob/main/demo/dashboard.png?raw=true">
 </div>
 
 <div>
@@ -159,7 +166,12 @@ install dependencies
 
 ```
 composer install
+
+
 or
+
+```
+
 composer update
 
 ```
@@ -167,39 +179,51 @@ composer update
 swith directory to project
 
 ```
+
 cd QMS
+
 ```
 
 generate app key
 
 ```
+
 php artisan key:generate
+
 ```
 
 open .env file and change db name.
 **database setup**
 
 ```
+
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=your_db_name
 DB_USERNAME=root
 DB_PASSWORD=
+
 ```
 
 migrate database, and seed
 
 ```
+
 php artisan migrate:fresh --seed
+
 ```
 
 ```
+
 Finally time to launch project, run
+
 ```
 
 ```
+
 php artisan serve
+
 ```
 
 the project will open at http://127.0.0.1:8000
@@ -207,7 +231,9 @@ the project will open at http://127.0.0.1:8000
 or
 
 ```
+
 php artisan serve --port=8001 | any supported port number
+
 ```
 
 **database seed will generate**
@@ -235,3 +261,4 @@ pass: 12345678
 | user_8@gmail.com  | `12345678` |
 | user_9@gmail.com  | `12345678` |
 | user_10@gmail.com | `12345678` |
+```
