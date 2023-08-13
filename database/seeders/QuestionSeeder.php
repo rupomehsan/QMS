@@ -23,7 +23,7 @@ class QuestionSeeder extends Seeder
                 "HTML consists of a set of elements that helps the browser how to view the content",
                 "All of the mentioned"
             ],
-            "answer" => 3,
+            "answer" => ['0', '3'],
         ]);
 
         Question::create([
@@ -35,7 +35,7 @@ class QuestionSeeder extends Seeder
                 "Brendan Eich",
                 "Sergey Brin"
             ],
-            "answer" => 1,
+            "answer" => ['1', '2'],
         ]);
 
         Question::create([
@@ -47,7 +47,7 @@ class QuestionSeeder extends Seeder
                 "CSS is designed to separate the presentation",
                 "All of the mentioned"
             ],
-            "answer" => 3,
+            "answer" => ['3'],
         ]);
 
         Question::create([
@@ -59,7 +59,7 @@ class QuestionSeeder extends Seeder
                 "Cascade style sheets",
                 "None of the above"
             ],
-            "answer" => 1,
+            "answer" => ['0', '1'],
         ]);
 
         Question::create([
@@ -71,7 +71,7 @@ class QuestionSeeder extends Seeder
                 "JavaScript is a compiled language used to make the website interactive",
                 "None of the mentioned"
             ],
-            "answer" => 0,
+            "answer" => ['0', '3'],
         ]);
 
         Question::create([
@@ -83,7 +83,7 @@ class QuestionSeeder extends Seeder
                 "JavaScript is an Object-Oriented language",
                 " JavaScript is a High-level language"
             ],
-            "answer" => 1,
+            "answer" => ['1', '2'],
         ]);
 
         Question::create([
@@ -95,7 +95,7 @@ class QuestionSeeder extends Seeder
                 "PHP is a server-side scripting language",
                 "All of the mentioned"
             ],
-            "answer" => 3,
+            "answer" => ['3'],
         ]);
 
         Question::create([
@@ -107,7 +107,7 @@ class QuestionSeeder extends Seeder
                 "Willam Makepiece",
                 "List Barely"
             ],
-            "answer" => 1,
+            "answer" => ['1', '3'],
         ]);
 
 

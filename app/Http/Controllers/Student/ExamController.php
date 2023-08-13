@@ -124,7 +124,7 @@ class ExamController extends Controller
         $rongAns = 0;
 
 
-        // dd($data);
+        // dd($data['answer']);
 
         if (!array_key_exists('answer', $data)) {
             return response([
@@ -148,6 +148,7 @@ class ExamController extends Controller
 
         foreach ($data['answer'] as $questionId => $answer) {
             $q = Question::where("id", $questionId)->first();
+
             if ($q->answer == $answer) {
                 $rightAns++;
             } else {

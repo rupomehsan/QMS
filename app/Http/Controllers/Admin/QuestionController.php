@@ -106,6 +106,7 @@ class QuestionController extends Controller
 
 
 
+
                 if (Question::query()->create($request->validated())) {
                     return response([
                         "status" => "success",

@@ -213,9 +213,10 @@ function getEditContent(url) {
                                     `
                                                  <div class="col-md-6">
                                                     <div class="d-flex gap-2">
-                                                        <input type="radio" name="answer" value="${index}" ${
-                                        index == answer ? "checked" : ""
-                                    }>
+                                                        <input type="checkbox" name="answer[]" value="${index}" ${optionChecked(
+                                        index,
+                                        answer
+                                    )}>
                                                         <input type="text" class="form-control my-2" name="options[]" id="name" value="${option}">
                                                     </div>
                                                 </div>
@@ -225,6 +226,17 @@ function getEditContent(url) {
                         }
                     }
                 });
+
+                function optionChecked(index, answer) {
+                    let checked = "";
+                    answer.forEach((item) => {
+                        if (item == index) {
+                            checked = "checked";
+                        }
+                    });
+
+                    return checked;
+                }
             }
         },
         error: function (err) {
@@ -851,7 +863,7 @@ function getAllQuestionBySubject(id) {
                         <div class="col-md-6">
 
                            <label for="${option}" class="box  w-100 d-flex gap-3">
-                           <input type="radio" class="d-inline-block " name="answer[${question.id}]" id="${option}" value="${index}">
+                           <input type="checkbox" class="d-inline-block " name="answer[${question.id}][]" id="${option}" value="${index}">
                                 <div class="course">
                                     <span class="circle"></span>
                                     <span class="subject">${option}</span>
@@ -900,11 +912,11 @@ function getResultBySubject(id) {
                            ${justifyResult(
                                question.id,
                                question.answer,
-                               response.result,
+                               response.result[question.id],
                                index
                            )}
                         ">
-                           <input disabled type="radio" class="d-inline-block " name="answer[${
+                           <input disabled type="checkbox" class="d-inline-block " name="answer[${
                                question.id
                            }]" id="${question.id + index}" value="${index}">
                                 <div class="course">
@@ -926,18 +938,24 @@ function getResultBySubject(id) {
                     result,
                     optionIndex
                 ) {
-                    console.log(quesionId, answerIndex, result, optionIndex);
                     var justify = "";
                     var rightAns = false;
-                    if (answerIndex == optionIndex) {
-                        justify = "bg-success";
-                        rightAns = true;
-                    }
-                    if (result[quesionId] == optionIndex) {
-                        if (!rightAns) {
-                            justify += " bg-danger";
+                    answerIndex.forEach((ans) => {
+                        if (ans == optionIndex) {
+                            justify = "bg-success";
+                            rightAns = true;
                         }
-                    }
+                    });
+                    console.log(result);
+                    result.forEach((res) => {
+                        console.log(res);
+                        if (res == optionIndex) {
+                            if (!rightAns) {
+                                justify += " bg-danger";
+                            }
+                        }
+                    });
+
                     return justify;
                 }
             }
@@ -979,7 +997,7 @@ function getResultBySubjectWithStudentID(id, stID) {
                            ${justifyResult(
                                question.id,
                                question.answer,
-                               response.result["answers"],
+                               response.result["answers"][question.id],
                                index
                            )}
                         ">
@@ -1005,18 +1023,24 @@ function getResultBySubjectWithStudentID(id, stID) {
                     result,
                     optionIndex
                 ) {
-                    console.log(quesionId, answerIndex, result, optionIndex);
                     var justify = "";
                     var rightAns = false;
-                    if (answerIndex == optionIndex) {
-                        justify = "bg-success";
-                        rightAns = true;
-                    }
-                    if (result[quesionId] == optionIndex) {
-                        if (!rightAns) {
-                            justify += " bg-danger";
+                    answerIndex.forEach((ans) => {
+                        if (ans == optionIndex) {
+                            justify = "bg-success";
+                            rightAns = true;
                         }
-                    }
+                    });
+                    console.log(result);
+                    result.forEach((res) => {
+                        console.log(res);
+                        if (res == optionIndex) {
+                            if (!rightAns) {
+                                justify += " bg-danger";
+                            }
+                        }
+                    });
+
                     return justify;
                 }
             }

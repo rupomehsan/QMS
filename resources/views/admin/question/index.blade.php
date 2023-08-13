@@ -392,7 +392,7 @@
                     `
                                  <div class="col-md-6">
                                     <div class="d-flex gap-2">
-                                        <input type="radio" name="answer" value="${i++}">
+                                        <input type="checkbox" name="answer[]" value="${i++}">
                                         <input type="text" class="form-control my-2" name="options[]" id="name">
                                     </div>
                                 </div>

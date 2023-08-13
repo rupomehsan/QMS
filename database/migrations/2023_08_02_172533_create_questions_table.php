@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('subject_id')->nullable();
             $table->string('question')->nullable();
             $table->json('options')->nullable();
-            $table->string('answer')->nullable();
+            $table->json('answer')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
