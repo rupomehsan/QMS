@@ -953,6 +953,9 @@ function getResultBySubject(id) {
                             if (!rightAns) {
                                 justify += " bg-danger";
                             }
+                            if (rightAns) {
+                                justify += " border border-3 border-warning";
+                            }
                         }
                     });
 
